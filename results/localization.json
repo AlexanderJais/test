@@ -1,0 +1,77 @@
+{
+ "tdoas": [
+  {
+   "pair": "AXBA1-AXCC1",
+   "tdoa_s": 14.392045482748955,
+   "corr": 0.9472323855328373
+  },
+  {
+   "pair": "AXBA1-AXEC2",
+   "tdoa_s": 12.151146584821692,
+   "corr": 0.9605425064624269
+  },
+  {
+   "pair": "AXBA1-HYS14",
+   "tdoa_s": 52.740439155253796,
+   "corr": 0.9286071040366384
+  },
+  {
+   "pair": "AXCC1-AXEC2",
+   "tdoa_s": -1.5192860081629314,
+   "corr": 0.9867385686998462
+  },
+  {
+   "pair": "AXCC1-HYS14",
+   "tdoa_s": 38.6447913454535,
+   "corr": 0.9382138054485337
+  },
+  {
+   "pair": "AXEC2-HYS14",
+   "tdoa_s": 40.26656269735169,
+   "corr": 0.9466782459157571
+  }
+ ],
+ "fix": {
+  "lat": 43.78000000000028,
+  "lon": -128.91999999999817,
+  "rms": 0.17578745392483017,
+  "c": 1.4699999999999993
+ },
+ "truth": {
+  "lat": 43.9646,
+  "lon": -128.7389,
+  "name": "USGS M5.0 us7000j3ld"
+ },
+ "miss_km": 25.1,
+ "peak_moveout": [
+  {
+   "station": "AXBA1",
+   "range_km": 220.8,
+   "peak_s_after_origin": 159.4,
+   "predicted_travel_s": 150.2,
+   "moveout_residual_s": -0.7
+  },
+  {
+   "station": "AXCC1",
+   "range_km": 242.8,
+   "peak_s_after_origin": 175.8,
+   "predicted_travel_s": 165.2,
+   "moveout_residual_s": 0.7
+  },
+  {
+   "station": "AXEC2",
+   "range_km": 240.1,
+   "peak_s_after_origin": 170.4,
+   "predicted_travel_s": 163.4,
+   "moveout_residual_s": -2.9
+  },
+  {
+   "station": "HYS14",
+   "range_km": 293.7,
+   "peak_s_after_origin": 217.7,
+   "predicted_travel_s": 199.8,
+   "moveout_residual_s": 8.0
+  }
+ ],
+ "peak_offset_s": 9.90000000000002
+}
