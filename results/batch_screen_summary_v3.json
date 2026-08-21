@@ -1,4 +1,7 @@
 {
+ "tag": "_v3",
+ "n_gap_trains": 638,
+ "n_chains": 5905,
  "days_screened": 704,
  "days_no_data": 20,
  "days_error": 6,

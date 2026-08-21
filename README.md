@@ -30,7 +30,9 @@ are actually localized.
 - `src/signature_features.py` — propulsion-signature screening: DEMON, kurtosis, spike trains (part 2)
 - `src/plasma_transient_search.py` — full-bandwidth plasma-discharge transient template search (part 2)
 - `src/batch_screen.py` — archive-scale daily screening campaign, disk-bounded streaming (part 2)
-- `src/verify_candidates.py` — pulse-physics adjudication of template matches (part 2)
+- `src/verify_candidates.py` — graded pulse-physics adjudication of candidates (part 2)
+- `src/injection_test.py` — measures detector sensitivity by signal injection (part 2)
+- `src/candidate_triage.py` — cross-day persistence catalog + residual watchlist (part 2)
 - `figures/` — generated figures used in the report
 - `results/` — per-slice detected-line tables and the feature catalog
 

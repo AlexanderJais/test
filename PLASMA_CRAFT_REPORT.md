@@ -8,7 +8,7 @@
 
 **Location: yes, demonstrated with real public data.** Using the public OOI cabled hydrophone array (4 usable stations, 3–294 km baselines), this investigation localized a ground-truth impulsive underwater source — the T-phase of a USGS-reviewed M5.0 earthquake — to **25 km of its true position at ~240 km range**, using classic passive-sonar TDOA processing (§2). The same pipeline applies to any sufficiently loud craft.
 
-**Did we find one? No — and the search is now archive-scale.** Beyond the low-frequency array screen (§3) and the initial 12-minute full-bandwidth search (§4), a two-year screening campaign processed 60 s from *every day of 2021 and 2022* (709 days screened, 682,533 transients, 641 pulse trains; §4a). The discharge template fired exactly twice; pulse-level adjudication resolved both — one 38 kHz echosounder ping train, one unusually regular biosonar click train. **Post-adjudication discharge sources: zero.** The honest caveat stands: public scientific arrays are sparse and band-limited compared to purpose-built naval systems (SOSUS/IUSS) (§5).
+**Did we find one? No — but "no" here is a measured, auditable result, not a quick dismissal.** The screen is a full pipeline (§4a): a periodicity miner that pulls metronomic chains out of mixed transient streams, an injection test that *measures* what it can and cannot detect, a high-frequency-energy gate and a cross-day persistence catalog that reject known fixed interferers, and a graded adjudicator that closes a candidate only on positive identification. Run over 60 s from *every day of 2021–2022* (704 days, 673,189 transients), it produced 539 discharge-template chains; persistence cataloging attributed 169 to fixed installations (a 100-day 38 kHz echosounder + one pinger), leaving a residual watchlist of ~370 chains on 121 days. Adjudicated, the residual is odontocete biosonar and engineered sonar — **but the honest verdict on most is "OPEN": a single fixed sensor cannot positively confirm or rule out a moving source; that requires the array's localization/tracking (§2).** Zero candidates were *positively identified* as a plasma-discharge source. The caveat stands: public scientific arrays are sparse and band-limited vs. purpose-built naval systems (§5).
 
 ---
 
@@ -90,27 +90,26 @@ Every detected transient (5–120 kHz band, ≥10 MAD) gets its waveform physics
 
 The feature space (left: timing jitter vs repetition rate; right: bandwidth vs centroid) shows the point: the machine-regular + broadband + impulsive corner where a sustained plasma discharge **must** sit is empty. Everything metronomic in the ocean sample is narrowband (engineered sonar); everything broadband-impulsive is jittery (biosonar). A plasma-sheath craft would be the one source class occupying both properties at once — which is precisely what makes it identifiable, and testable, in archival data.
 
-### 4a. Archive-scale campaign: every day of 2021–2022
+### 4a. The screening pipeline, and why each stage exists
 
-`src/batch_screen.py` streams a stratified sample of the archive — 60 s from **every single day**, with the sampled hour rotating through the full diel cycle (7·day-of-year mod 24) — and runs the discharge-template screen on each slice with parallel workers, deleting audio after processing (disk-bounded; ~33 GB streamed, ~20 screened days/minute on 3 workers).
+The archive screen went through four documented iterations, each forced by a measured failure of the previous one. The history matters because it is the difference between "we ran a detector and saw nothing" and "we know what the detector can and cannot see."
 
-**Campaign numbers (2021 + 2022):** 730 days attempted → **709 screened** (20 known archive-gap days, 1 truncated download), **682,533 transients**, **641 pulse trains**:
+**v1 — gap-clustered trains.** Cluster transients into trains by time gaps; flag metronomic + broadband + impulsive ones. Screened 709 days → 2 candidates, both adjudicated away (one echosounder, one regular biosonar). *Measured failure:* injection testing (below) showed v1 recovered **0%** of injected 0.5 Hz discharge trains — any train slower than the 2 s clustering gap fragments and is missed — and failed inside biosonar click storms.
 
-| population | days present | pattern |
-|---|---:|---|
-| odontocete click activity | 232 | year-round, strong summer–fall 2021 peak (busiest minute: 12,809 clicks) |
-| 38 kHz echosounder ping activity | 216 | a ~0.5 Hz pinger present continuously Jan–May 2021 and Aug–Dec 2022 — deployment periods of a co-located/nearby instrument |
-| irregular impulse clusters | 21 | scattered snaps/unclassified |
-| **discharge-template matches** | **2** | **both adjudicated, see below** |
+**Injection testing (the honest null control).** `src/injection_test.py` synthesizes physically modeled discharge trains (µs shock + bubble echoes at 0.8/1.6 ms, machine-regular) and injects them into real slices at controlled multiples of each slice's own detection threshold. This converts "we found nothing" into "we would have detected a source of received level ≥ X." Result for the current detector: nothing recovered below 1.5× threshold; **67–92% recovery at ≥1.5×**, except in the 4 busiest slices (3,636-click storms, heavy echosounder) which remain hard — the measured, stated limit of a single sensor in dense interference. Cost of the sensitivity: 1 false positive per 12 clean control runs. The implied detection range (spherical spreading + 10 dB/km at 40 kHz) is tens of km for a loud source (see `figures/fig_injection.png`).
 
-![Batch screen](figures/fig_batch_screen.png)
+**v2 — periodicity mining (PRI deinterleaving).** Borrowed from radar/ESM: instead of clustering by gaps, mine the event-time stream directly for periodic chains, tolerant of missing pulses and interleaved interlopers, with a Poisson-surrogate chance floor so random streams cannot assemble spurious chains, and amplitude-tiered so a steady machine train stands out inside a click storm. This lifted 0.5 Hz recovery from 0% to 67%. *Measured failure:* v2 flagged **899** discharge-class chains over two years — 58% in the 34–42 kHz band, i.e. the local 38 kHz echosounder, whose low-SNR pings fool the fractional-bandwidth feature.
 
-**Candidate adjudication** (`src/verify_candidates.py` — pulse-level physics: level stability, spectral self-similarity, echo-lag consistency, band dominance):
+**v3 — high-frequency-energy gate.** A genuine broadband discharge shock carries substantial energy above 55 kHz; a 38 kHz ping carries almost none. Adding `hf_frac` (fraction of per-event energy > 55 kHz) and requiring it for the discharge class dropped the count to **539** and, critically, rejects the echosounder at screening time while *keeping* genuinely broadband candidates.
 
-- **Candidate A (2021-11-01 23:09 UTC):** 14 pulses at 0.506 Hz, IPI CV 0.003 — timing worthy of a machine, and it is one: band-dominance shows all pulse energy confined to 36–40 kHz (ping-band SNR 53 vs high-band 3) and the spectrogram shows 2 ms pings at 38 kHz every 1.978 s — **a 38 kHz echosounder**. The batch feature had overestimated its bandwidth because at low SNR the fractional-bandwidth metric measures signal+noise. Verdict: engineered sonar, and a lesson folded back into the adjudicator.
-- **Candidate B (2021-12-28 14:05 UTC):** 16 pulses at 1.555 Hz, IPI CV 0.022, genuinely broadband — but received levels swing 6.7 dB pulse-to-pulse (CV 0.22) and there is no fixed bubble-oscillation echo (echo-lag CV 1.06); the same minute contains jittery click trains with identical per-pulse physics. Verdict: **an echolocating animal clicking with unusual regularity**, its scanning beam betraying it — a fixed discharge transmitter would hold level within ~1 dB and repeat its cavity echo exactly.
+**Cross-day persistence catalog (`src/candidate_triage.py`).** The decisive principle: **a plasma-propelled craft is transient — it passes through — so anything recurring at the same acoustic fingerprint across many days is a fixed installation, not a craft.** Clustering the 539 chains by their stable instrument signature (repetition rate + bubble-echo lag, since spectral centroid drifts with propagation) catalogs **2 fixed sources on ≥ 8 days** — a 38 kHz echosounder present on **100 days** at an identical 0.40 Hz / 0.34 ms fingerprint, plus one 11.5 Hz pinger (8 days) — accounting for 169 chains. This leaves a **residual watchlist of 209 fingerprints / ~370 chains on 121 days** (`figures/fig_triage.png`, red = catalogued fixed, green = residual).
 
-That is the operational answer to "can we identify potential transient signatures": the template produces a manageable candidate stream (2 in 709 screened minutes, ≈0.3%/day), and per-pulse physics cleanly separates engineered sonar, biosonar, and — should one ever appear — a genuine discharge source. Figures `fig_candidate_A/B.png` show the diagnostic evidence.
+**Graded adjudication of the residual (`src/verify_candidates.py`).** No binary dismissals. Pulse-level physics — received-level stability, spectral self-similarity, bubble-echo-lag consistency, band dominance, and a **motion-consistency** metric (level-reversal fraction: a scanning biosonar beam is erratic ~0.67; a smoothly transiting transmitter is monotonic < 0.3) — assigns one of: **CLOSED** (positive ID of a known class, e.g. an echosounder whose energy is confined to the instrument band); **OPEN grade 1** (machine-like: stable level, cloned spectra, fixed echo — highest interest); **OPEN grade 2** (unresolved — evidence consistent with *both* regular biosonar and a maneuvering/variable-power source); **OPEN grade 3** (biologic-favored, watchlisted). Adjudicating the most machine-like residuals returns a spread across CLOSED / grade 2 / grade 3 — and the original candidate B (2021-12-28) is now **grade 2, OPEN**, because its earlier "biosonar" dismissal rested only on level variability, which a *moving* source also produces.
+
+**What this means for the question.** The pipeline is exactly what a real screen for unknown craft looks like: it does not emit a confident "nothing here." It emits (1) a measured sensitivity floor, (2) a catalog of known fixed sources, and (3) a residual watchlist whose members a single sensor can grade but not positively identify — the set that, in a real deployment, would be handed to the array (§2's validated TDOA localization) for the motion and bearing measurements that alone distinguish a transiting craft from a stationary quirk or a passing animal. On this two-year public sample, **zero residuals were positively identified as a plasma-discharge source, and none was silently dismissed.**
+
+![Injection sensitivity](figures/fig_injection.png)
+![Candidate triage](figures/fig_triage.png)
 
 ## 5. Honest capability assessment
 
@@ -137,7 +136,12 @@ python3 src/plasma_transient_search.py  # full-bandwidth discharge-template sear
 python3 src/batch_screen.py --year 2022 --workers 3   # archive-scale daily screen (~18 min/year)
 python3 src/batch_screen.py --year 2021 --workers 3
 python3 src/batch_screen.py --aggregate               # summary + fig_batch_screen.png
-python3 src/verify_candidates.py                      # adjudicate template matches
+python3 src/verify_candidates.py                      # adjudicate the v1 template matches
+python3 src/injection_test.py --workers 3            # MEASURE detector sensitivity (recovery matrix)
+python3 src/batch_screen.py --year 2022 --workers 3 --tag _v3   # chain-mining re-screen
+python3 src/batch_screen.py --year 2021 --workers 3 --tag _v3
+python3 src/candidate_triage.py --tag _v3            # persistence catalog + residual watchlist
+python3 src/verify_candidates.py --residuals         # graded adjudication of top residuals
 ```
 
 Data credits: OOI Regional Cabled Array via EarthScope (IRIS) FDSN services; USGS earthquake catalog.

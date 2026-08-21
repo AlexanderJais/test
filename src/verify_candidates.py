@@ -67,6 +67,16 @@ def analyze(cand, slices_dir, figdir, seconds=60):
     x, env, peaks, heights = detect(p, fs)
     times = peaks / fs
     tr = isolate_train(times, cand["t_start_s"], cand["rate_hz"], cand["n"])
+    if len(tr) < 6:                       # reacquire from the best seed
+        best = tr
+        for seed in times[:200]:
+            c = isolate_train(times, seed, cand["rate_hz"], cand["n"])
+            if len(c) > len(best):
+                best = c
+        tr = best
+    if len(tr) < 6:
+        raise ValueError(f"could not reacquire train at "
+                         f"{cand['rate_hz']} Hz ({len(tr)} pulses)")
     idx = [int(round(t * fs)) for t in tr]
 
     # per-pulse extracts: 6 ms windows, aligned on envelope peak
@@ -191,9 +201,53 @@ def analyze(cand, slices_dir, figdir, seconds=60):
     return metrics
 
 
+
+
+
+def adjudicate_residuals(top=4, tag="_v3", slices_dir="data/batch_tmp"):
+    """Re-fetch and adjudicate the most machine-like residual candidates
+    from candidate_triage.json (those a persistent-source catalog did NOT
+    explain). Honest characterization, not dismissal: a single sensor can
+    grade these but cannot positively confirm or rule out a craft."""
+    import datetime
+    tri = json.load(open("results/candidate_triage.json"))
+    res = sorted(tri["residual"], key=lambda r: r["min_cv"])[:top]
+    out = []
+    for r in res:
+        d = datetime.date.fromisoformat(r["date"])
+        prefix_hours = None
+        # find the actual slice hour from the batch record
+        for l in open(f"results/batch_screen_{d.year}{tag}.jsonl"):
+            rec = json.loads(l)
+            if rec["date"] == r["date"]:
+                prefix_hours = rec.get("hour")
+                break
+        if prefix_hours is None:
+            continue
+        cand = {"id": r["date"], "year": str(d.year),
+                "month": f"{d.month:02d}",
+                "prefix": f"{d.strftime('%Y%m%d')}_{prefix_hours:02d}",
+                "t_start_s": 0.5, "rate_hz": r["rate"],
+                "n": max(8, min(60, r["n_chains"] * 8))}
+        try:
+            m = analyze(cand, slices_dir, "figures")
+            m["triage"] = r
+            out.append(m)
+        except Exception as e:
+            print(f"  {r['date']}: adjudication failed ({e})")
+    with open("results/residual_verdicts.json", "w") as fh:
+        json.dump(out, fh, indent=1)
+    return out
+
+
 def main():
     slices_dir = "data/batch_tmp"
     os.makedirs(slices_dir, exist_ok=True)
+    import sys
+    if "--residuals" in sys.argv:
+        for m in adjudicate_residuals():
+            print(f"{m['id']}: {m['verdict']}")
+        return
     out = [analyze(c, slices_dir, "figures") for c in CANDIDATES]
     with open("results/candidate_verdicts.json", "w") as fh:
         json.dump(out, fh, indent=1)

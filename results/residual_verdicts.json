@@ -1,0 +1,71 @@
+[
+ {
+  "id": "2021-06-08",
+  "slice": "MARS_20210608_090229_first60s.wav",
+  "n_pulses_reacquired": 8,
+  "ipi_cv": 0.0039,
+  "amp_cv": 0.409,
+  "amp_range_db": 8.9,
+  "spec_corr_median": 0.814,
+  "echo_lag_cv": 0.704,
+  "ping_band_snr": 5.9,
+  "high_band_snr": 3.1,
+  "level_reversal_frac": 0.5,
+  "verdict": "OPEN grade 2 - unresolved: pulse-level evidence mixed (consistent with regular biosonar AND with a maneuvering or variable-power transmitter); localization/tracking data needed to resolve",
+  "triage": {
+   "date": "2021-06-08",
+   "n_days": 1,
+   "rate": 0.297,
+   "cen_khz": 39.071,
+   "echo_ms": 0.72,
+   "min_cv": 0.002,
+   "n_chains": 1
+  }
+ },
+ {
+  "id": "2022-08-22",
+  "slice": "MARS_20220822_060016_first60s.wav",
+  "n_pulses_reacquired": 8,
+  "ipi_cv": 0.003,
+  "amp_cv": 1.296,
+  "amp_range_db": 28.3,
+  "spec_corr_median": 0.922,
+  "echo_lag_cv": 0.115,
+  "ping_band_snr": 61.2,
+  "high_band_snr": 3.2,
+  "level_reversal_frac": 0.33,
+  "verdict": "CLOSED - positive ID: engineered 38 kHz-class echosounder (all pulse energy confined to the instrument band; batch frac-BW feature overestimates bandwidth at low SNR)",
+  "triage": {
+   "date": "2022-08-22",
+   "n_days": 1,
+   "rate": 0.2,
+   "cen_khz": 43.53,
+   "echo_ms": 0.32,
+   "min_cv": 0.003,
+   "n_chains": 1
+  }
+ },
+ {
+  "id": "2021-03-03",
+  "slice": "MARS_20210303_020002_first60s.wav",
+  "n_pulses_reacquired": 8,
+  "ipi_cv": 0.0049,
+  "amp_cv": 0.639,
+  "amp_range_db": 13.9,
+  "spec_corr_median": 0.688,
+  "echo_lag_cv": 0.74,
+  "ping_band_snr": 12.2,
+  "high_band_snr": 5.4,
+  "level_reversal_frac": 0.67,
+  "verdict": "OPEN grade 3 - biologic-favored: erratic level reversals (scanning beam) and no repeatable cavity echo; kept on watchlist, single sensor cannot positively identify",
+  "triage": {
+   "date": "2021-03-03",
+   "n_days": 1,
+   "rate": 0.495,
+   "cen_khz": 35.584,
+   "echo_ms": 1.42,
+   "min_cv": 0.003,
+   "n_chains": 1
+  }
+ }
+]

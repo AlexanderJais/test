@@ -129,24 +129,28 @@ def run_year(year, seconds, workers, out_path, tmpdir):
 TAG = ""
 
 
-def aggregate(figdir="figures", out="results"):
+def aggregate(figdir="figures", out="results", tag=""):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     recs = []
-    pat = f"batch_screen_*{TAG}.jsonl" if TAG else "batch_screen_2???.jsonl"
+    pat = f"batch_screen_2???{tag}.jsonl" if tag else "batch_screen_2???.jsonl"
     for path in sorted(glob.glob(os.path.join(out, pat))):
         with open(path) as fh:
             recs += [json.loads(l) for l in fh if l.strip()]
     ok = [r for r in recs if r.get("status") == "ok"]
-    n_cand = sum(r.get("n_candidates", 0) for r in ok)
+    n_cand = sum(1 for r in ok for t in r.get("trains", []) + r.get("chains", [])
+                 if t["class"].startswith("DISCHARGE"))
     cls_days = {}
     for r in ok:
         for t in r["trains"] + r.get("chains", []):
             key = t["class"].split(" (")[0]
             cls_days.setdefault(key, set()).add(r["date"])
     summary = {
+        "tag": tag,
+        "n_gap_trains": sum(len(r.get("trains", [])) for r in ok),
+        "n_chains": sum(len(r.get("chains", [])) for r in ok),
         "days_screened": len(ok),
         "days_no_data": sum(1 for r in recs if r.get("status") == "no_data"),
         "days_error": sum(1 for r in recs
@@ -157,7 +161,7 @@ def aggregate(figdir="figures", out="results"):
         "discharge_candidates": n_cand,
         "days_with_class": {k: len(v) for k, v in sorted(cls_days.items())},
     }
-    with open(os.path.join(out, "batch_screen_summary.json"), "w") as fh:
+    with open(os.path.join(out, f"batch_screen_summary{tag}.json"), "w") as fh:
         json.dump(summary, fh, indent=1)
     print(json.dumps(summary, indent=1))
 
@@ -221,8 +225,7 @@ def main():
                     "e.g. _v2 for the chain-mining rescreen")
     args = ap.parse_args()
     if args.aggregate:
-        globals()["TAG"] = args.tag
-        aggregate()
+        aggregate(tag=args.tag)
     else:
         run_year(args.year, args.seconds, args.workers,
                  f"results/batch_screen_{args.year}{args.tag}.jsonl",
