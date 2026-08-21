@@ -1,0 +1,117 @@
+{
+ "slice": "MARS_20220905_030016",
+ "fs": 256000,
+ "n_lines": 22,
+ "lines": [
+  {
+   "freq_hz": 11.719,
+   "snr_db": 15.59,
+   "level_db_re_upa2hz": 86.96
+  },
+  {
+   "freq_hz": 17.578,
+   "snr_db": 20.51,
+   "level_db_re_upa2hz": 92.28
+  },
+  {
+   "freq_hz": 27.344,
+   "snr_db": 18.75,
+   "level_db_re_upa2hz": 90.91
+  },
+  {
+   "freq_hz": 33.203,
+   "snr_db": 19.82,
+   "level_db_re_upa2hz": 92.19
+  },
+  {
+   "freq_hz": 41.992,
+   "snr_db": 19.86,
+   "level_db_re_upa2hz": 92.29
+  },
+  {
+   "freq_hz": 49.805,
+   "snr_db": 10.81,
+   "level_db_re_upa2hz": 83.32
+  },
+  {
+   "freq_hz": 54.688,
+   "snr_db": 10.66,
+   "level_db_re_upa2hz": 83.41
+  },
+  {
+   "freq_hz": 59.57,
+   "snr_db": 10.63,
+   "level_db_re_upa2hz": 83.38
+  },
+  {
+   "freq_hz": 65.43,
+   "snr_db": 6.17,
+   "level_db_re_upa2hz": 78.92
+  },
+  {
+   "freq_hz": 13910.156,
+   "snr_db": 8.84,
+   "level_db_re_upa2hz": 59.44
+  },
+  {
+   "freq_hz": 13916.016,
+   "snr_db": 9.4,
+   "level_db_re_upa2hz": 59.99
+  },
+  {
+   "freq_hz": 13921.875,
+   "snr_db": 8.12,
+   "level_db_re_upa2hz": 58.71
+  },
+  {
+   "freq_hz": 21042.969,
+   "snr_db": 20.1,
+   "level_db_re_upa2hz": 63.78
+  },
+  {
+   "freq_hz": 21304.688,
+   "snr_db": 10.42,
+   "level_db_re_upa2hz": 54.85
+  },
+  {
+   "freq_hz": 50039.062,
+   "snr_db": 42.75,
+   "level_db_re_upa2hz": 86.42
+  },
+  {
+   "freq_hz": 50050.781,
+   "snr_db": 7.48,
+   "level_db_re_upa2hz": 51.15
+  },
+  {
+   "freq_hz": 76951.172,
+   "snr_db": 6.22,
+   "level_db_re_upa2hz": 44.02
+  },
+  {
+   "freq_hz": 78113.281,
+   "snr_db": 6.82,
+   "level_db_re_upa2hz": 44.71
+  },
+  {
+   "freq_hz": 78119.141,
+   "snr_db": 7.71,
+   "level_db_re_upa2hz": 45.57
+  },
+  {
+   "freq_hz": 78125.977,
+   "snr_db": 6.54,
+   "level_db_re_upa2hz": 44.36
+  },
+  {
+   "freq_hz": 100079.102,
+   "snr_db": 36.34,
+   "level_db_re_upa2hz": 73.75
+  },
+  {
+   "freq_hz": 100090.82,
+   "snr_db": 7.99,
+   "level_db_re_upa2hz": 45.4
+  }
+ ]
+}

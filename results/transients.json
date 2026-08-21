@@ -1,0 +1,38 @@
+[
+ {
+  "slice": "MARS_20220101_000507",
+  "n_impulses": 0,
+  "rate_per_s": 0.0,
+  "threshold_upa": 371549.1
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "n_impulses": 263,
+  "rate_per_s": 4.38,
+  "threshold_upa": 95776.4
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "n_impulses": 2,
+  "rate_per_s": 0.03,
+  "threshold_upa": 98285.0
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "n_impulses": 0,
+  "rate_per_s": 0.0,
+  "threshold_upa": 238792.4
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "n_impulses": 2716,
+  "rate_per_s": 45.27,
+  "threshold_upa": 219500.3
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "n_impulses": 189,
+  "rate_per_s": 3.15,
+  "threshold_upa": 97194.7
+ }
+]
