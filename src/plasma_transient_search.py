@@ -138,9 +138,10 @@ def event_features(x, env, fs, i):
     }
 
 
-def classify_train(evs):
+def classify_train(evs, cv_override=None):
     ipi = np.diff([e["t_s"] for e in evs])
-    cv = float(np.std(ipi) / np.mean(ipi))
+    cv = float(cv_override) if cv_override is not None \
+        else float(np.std(ipi) / np.mean(ipi))
     # secular IPI drift (Doppler / range-rate proxy): relative slope
     tt = np.array([e["t_s"] for e in evs[:-1]])
     drift = float(np.polyfit(tt, ipi, 1)[0] / np.mean(ipi)) if len(ipi) > 3 \
@@ -433,6 +434,15 @@ def mine_chains(times, heights, n_min=8):
     for k in (600, 150):
         if len(times) > k:
             tiers.append(np.sort(np.argsort(heights)[-k:]))
+    # amplitude BANDS: a machine train repeats at near-constant received
+    # level, so it concentrates inside a narrow band even when biologics
+    # and strong pings dominate the totals. Slide a 6 dB window in 3 dB
+    # steps across the height distribution.
+    logh = 20 * np.log10(np.maximum(heights, 1e-12))
+    for lo in np.arange(np.floor(logh.min()), logh.max(), 3.0):
+        band = np.nonzero((logh >= lo) & (logh < lo + 6.0))[0]
+        if n_min <= len(band) <= 2000:
+            tiers.append(band)
     kept = []
     for tier in tiers:
         t = times[tier]
@@ -476,7 +486,10 @@ def screen_events(x, env, fs, peaks, heights, feature_cap=1000):
         idx = np.searchsorted(times, ch - 1e-4)
         members = [event_features(x, env, fs, int(peaks[i]))
                    for i in idx[:200]]
-        st = classify_train(members)
+        steps = np.diff(ch)
+        per_step = steps / np.round(steps / T)
+        chain_cv = float(np.std(per_step) / np.mean(per_step))
+        st = classify_train(members, cv_override=chain_cv)
         st["t_start_s"] = round(float(ch[0]), 3)
         st["n"] = len(ch)
         st["rate_hz"] = round(1.0 / T, 3)
