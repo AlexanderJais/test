@@ -115,6 +115,11 @@ def event_features(x, env, fs, i):
     cum = np.cumsum(s) / np.sum(s)
     bw = float(fq[np.searchsorted(cum, 0.95)] -
                fq[np.searchsorted(cum, 0.05)])   # 90% energy bandwidth
+    # fraction of event energy above 55 kHz. A 38 kHz echosounder ping has
+    # essentially none; genuine discharge shocks and odontocete clicks are
+    # broadband and carry substantial high-frequency energy. This is the
+    # SNR-robust test that fractional bandwidth is not.
+    hf = float(s[fq >= 55000].sum() / s.sum())
     # bubble-oscillation echo: envelope autocorrelation 0.3-20 ms lag
     ec = e[pk:pk + int(0.020 * fs)].copy()
     ec -= ec.mean()
@@ -135,6 +140,7 @@ def event_features(x, env, fs, i):
         "frac_bw": round(bw / centroid, 2),
         "echo_lag_ms": round(float(echo_lag_ms), 2),
         "echo_r": round(echo_r, 2),
+        "hf_frac": round(hf, 3),
     }
 
 
@@ -157,14 +163,18 @@ def classify_train(evs, cv_override=None):
              "med_centroid_hz": round(med("centroid_hz"), 0),
              "med_frac_bw": round(med("frac_bw"), 2),
              "med_echo_lag_ms": round(med("echo_lag_ms"), 2)}
-    if stats["med_frac_bw"] < 0.2:
-        # Narrowband dominates any timing evidence: an engineered tonal
-        # ping (e.g. the 38 kHz fisheries-echosounder standard). Timing
-        # CV is unreliable here because each ping arrives with surface/
-        # bottom echoes that the detector also picks up.
+    hf = float(np.median([e.get("hf_frac", 0.0) for e in evs
+                          if "hf_frac" in e] or [0.0]))
+    stats["med_hf_frac"] = round(hf, 3)
+    in_ping_band = 34000 <= stats["med_centroid_hz"] <= 42000
+    if stats["med_frac_bw"] < 0.2 or (in_ping_band and hf < 0.05):
+        # Narrowband, or all energy in the 38 kHz sonar band with nothing
+        # above it: an engineered echosounder. hf<0.05 is the SNR-robust
+        # test that catches low-SNR pings whose fractional bandwidth is
+        # over-reported by signal+noise.
         label = "echosounder / engineered narrowband ping activity"
     elif cv < 0.05 and stats["med_frac_bw"] > 0.5 \
-            and stats["med_dur_ms"] < 5:
+            and stats["med_dur_ms"] < 5 and hf >= 0.05:
         label = "DISCHARGE-LIKE CANDIDATE (metronomic, broadband, impulsive)"
     elif cv < 0.05:
         label = "metronomic train, unclassified"
