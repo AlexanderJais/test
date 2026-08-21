@@ -10,7 +10,8 @@
   "echo_lag_cv": 0.967,
   "ping_band_snr": 53.0,
   "high_band_snr": 3.1,
-  "verdict": "engineered narrowband ping (38 kHz-class echosounder); batch frac-BW overestimated at low SNR"
+  "level_reversal_frac": 0.83,
+  "verdict": "CLOSED - positive ID: engineered 38 kHz-class echosounder (all pulse energy confined to the instrument band; batch frac-BW feature overestimates bandwidth at low SNR)"
  },
  {
   "id": "B",
@@ -23,6 +24,7 @@
   "echo_lag_cv": 1.063,
   "ping_band_snr": 2.5,
   "high_band_snr": 3.1,
-  "verdict": "biosonar: click-to-click level/spectrum variability of a scanning animal, not a fixed transmitter"
+  "level_reversal_frac": 0.5,
+  "verdict": "OPEN grade 2 - unresolved: pulse-level evidence mixed (consistent with regular biosonar AND with a maneuvering or variable-power transmitter); localization/tracking data needed to resolve"
  }
 ]

@@ -119,22 +119,42 @@ def analyze(cand, slices_dir, figdir, seconds=60):
         "ping_band_snr": round(ping_snr, 1),
         "high_band_snr": round(high_snr, 1),
     }
+    # motion consistency: fraction of pulse-to-pulse level-trend
+    # reversals. A scanning biosonar beam is erratic (~0.67, random);
+    # a smoothly transiting transmitter is monotonic-ish (<0.3).
+    # Intermediate values are evidence of NOTHING and must not close a
+    # candidate.
+    steps = np.diff(20 * np.log10(amps))
+    metrics["level_reversal_frac"] = round(float(np.mean(
+        np.sign(steps[1:]) != np.sign(steps[:-1]))), 2)
     # verdict logic
+    # Graded verdicts. A candidate is CLOSED only on POSITIVE
+    # identification of a known source class; anything else stays OPEN
+    # at a grade. Absence of machine-like stability is NOT a dismissal:
+    # a moving or variable-power source would also vary.
     if ping_snr > 4 * high_snr and ping_snr > 10:
-        # pulse energy confined to the 38 kHz sonar band, nothing above:
-        # a narrowband echosounder whose low SNR fooled the batch
-        # screener's bandwidth feature
-        metrics["verdict"] = ("engineered narrowband ping (38 kHz-class " 
-                              "echosounder); batch frac-BW overestimated "
-                              "at low SNR")
+        metrics["verdict"] = (
+            "CLOSED - positive ID: engineered 38 kHz-class echosounder "
+            "(all pulse energy confined to the instrument band; batch "
+            "frac-BW feature overestimates bandwidth at low SNR)")
     elif (metrics["amp_cv"] < 0.15 and metrics["spec_corr_median"] > 0.9
             and metrics["echo_lag_cv"] < 0.15):
-        metrics["verdict"] = ("machine-like broadband transmitter "
-                              "(discharge or engineered; needs follow-up)")
+        metrics["verdict"] = (
+            "OPEN grade 1 - machine-like broadband transmitter: stable "
+            "level, cloned spectra, fixed echo; highest interest, "
+            "needs array follow-up")
+    elif metrics["level_reversal_frac"] >= 0.6 \
+            and metrics["echo_lag_cv"] > 0.5:
+        metrics["verdict"] = (
+            "OPEN grade 3 - biologic-favored: erratic level reversals "
+            "(scanning beam) and no repeatable cavity echo; kept on "
+            "watchlist, single sensor cannot positively identify")
     else:
-        metrics["verdict"] = ("biosonar: click-to-click level/spectrum "
-                              "variability of a scanning animal, not a "
-                              "fixed transmitter")
+        metrics["verdict"] = (
+            "OPEN grade 2 - unresolved: pulse-level evidence mixed "
+            "(consistent with regular biosonar AND with a maneuvering "
+            "or variable-power transmitter); localization/tracking "
+            "data needed to resolve")
 
     fig, axes = plt.subplots(2, 2, figsize=(13, 8))
     ax = axes[0, 0]
