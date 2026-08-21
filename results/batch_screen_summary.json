@@ -1,0 +1,15 @@
+{
+ "days_screened": 709,
+ "days_no_data": 20,
+ "days_error": 1,
+ "audio_minutes": 709,
+ "total_transients": 682533,
+ "total_trains": 641,
+ "discharge_candidates": 2,
+ "days_with_class": {
+  "DISCHARGE-LIKE CANDIDATE": 2,
+  "echosounder / engineered narrowband ping activity": 216,
+  "irregular impulse cluster": 21,
+  "odontocete click activity": 232
+ }
+}

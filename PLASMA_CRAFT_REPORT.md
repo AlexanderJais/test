@@ -8,7 +8,7 @@
 
 **Location: yes, demonstrated with real public data.** Using the public OOI cabled hydrophone array (4 usable stations, 3–294 km baselines), this investigation localized a ground-truth impulsive underwater source — the T-phase of a USGS-reviewed M5.0 earthquake — to **25 km of its true position at ~240 km range**, using classic passive-sonar TDOA processing (§2). The same pipeline applies to any sufficiently loud craft.
 
-**Did we find one? No.** A low-frequency screen of 519 array windows (§3) and a dedicated full-bandwidth transient-signature search over 5,098 detected transients in 12 minutes of 256 kHz data (§4) classified everything as ambient, geophysical, biologic (fin whale song, odontocete click trains), engineered pings (38 kHz echosounder), vessel, or glitch — **zero discharge-template candidates**. The honest caveat: public scientific arrays are sparse and band-limited compared to purpose-built naval systems (SOSUS/IUSS) (§5).
+**Did we find one? No — and the search is now archive-scale.** Beyond the low-frequency array screen (§3) and the initial 12-minute full-bandwidth search (§4), a two-year screening campaign processed 60 s from *every day of 2021 and 2022* (709 days screened, 682,533 transients, 641 pulse trains; §4a). The discharge template fired exactly twice; pulse-level adjudication resolved both — one 38 kHz echosounder ping train, one unusually regular biosonar click train. **Post-adjudication discharge sources: zero.** The honest caveat stands: public scientific arrays are sparse and band-limited compared to purpose-built naval systems (SOSUS/IUSS) (§5).
 
 ---
 
@@ -90,6 +90,28 @@ Every detected transient (5–120 kHz band, ≥10 MAD) gets its waveform physics
 
 The feature space (left: timing jitter vs repetition rate; right: bandwidth vs centroid) shows the point: the machine-regular + broadband + impulsive corner where a sustained plasma discharge **must** sit is empty. Everything metronomic in the ocean sample is narrowband (engineered sonar); everything broadband-impulsive is jittery (biosonar). A plasma-sheath craft would be the one source class occupying both properties at once — which is precisely what makes it identifiable, and testable, in archival data.
 
+### 4a. Archive-scale campaign: every day of 2021–2022
+
+`src/batch_screen.py` streams a stratified sample of the archive — 60 s from **every single day**, with the sampled hour rotating through the full diel cycle (7·day-of-year mod 24) — and runs the discharge-template screen on each slice with parallel workers, deleting audio after processing (disk-bounded; ~33 GB streamed, ~20 screened days/minute on 3 workers).
+
+**Campaign numbers (2021 + 2022):** 730 days attempted → **709 screened** (20 known archive-gap days, 1 truncated download), **682,533 transients**, **641 pulse trains**:
+
+| population | days present | pattern |
+|---|---:|---|
+| odontocete click activity | 232 | year-round, strong summer–fall 2021 peak (busiest minute: 12,809 clicks) |
+| 38 kHz echosounder ping activity | 216 | a ~0.5 Hz pinger present continuously Jan–May 2021 and Aug–Dec 2022 — deployment periods of a co-located/nearby instrument |
+| irregular impulse clusters | 21 | scattered snaps/unclassified |
+| **discharge-template matches** | **2** | **both adjudicated, see below** |
+
+![Batch screen](figures/fig_batch_screen.png)
+
+**Candidate adjudication** (`src/verify_candidates.py` — pulse-level physics: level stability, spectral self-similarity, echo-lag consistency, band dominance):
+
+- **Candidate A (2021-11-01 23:09 UTC):** 14 pulses at 0.506 Hz, IPI CV 0.003 — timing worthy of a machine, and it is one: band-dominance shows all pulse energy confined to 36–40 kHz (ping-band SNR 53 vs high-band 3) and the spectrogram shows 2 ms pings at 38 kHz every 1.978 s — **a 38 kHz echosounder**. The batch feature had overestimated its bandwidth because at low SNR the fractional-bandwidth metric measures signal+noise. Verdict: engineered sonar, and a lesson folded back into the adjudicator.
+- **Candidate B (2021-12-28 14:05 UTC):** 16 pulses at 1.555 Hz, IPI CV 0.022, genuinely broadband — but received levels swing 6.7 dB pulse-to-pulse (CV 0.22) and there is no fixed bubble-oscillation echo (echo-lag CV 1.06); the same minute contains jittery click trains with identical per-pulse physics. Verdict: **an echolocating animal clicking with unusual regularity**, its scanning beam betraying it — a fixed discharge transmitter would hold level within ~1 dB and repeat its cavity echo exactly.
+
+That is the operational answer to "can we identify potential transient signatures": the template produces a manageable candidate stream (2 in 709 screened minutes, ≈0.3%/day), and per-pulse physics cleanly separates engineered sonar, biosonar, and — should one ever appear — a genuine discharge source. Figures `fig_candidate_A/B.png` show the diagnostic evidence.
+
 ## 5. Honest capability assessment
 
 What this demonstrates a **public** array can already do:
@@ -112,6 +134,10 @@ python3 src/fetch_array.py          # ~35 min of 4-5 station array data via Eart
 python3 src/localize_tdoa.py        # TDOA fix vs USGS truth, fig_tphase, fig_localization
 python3 src/signature_features.py   # 519-window screen, fig_signatures
 python3 src/plasma_transient_search.py  # full-bandwidth discharge-template search (fetches 6 more MARS slices)
+python3 src/batch_screen.py --year 2022 --workers 3   # archive-scale daily screen (~18 min/year)
+python3 src/batch_screen.py --year 2021 --workers 3
+python3 src/batch_screen.py --aggregate               # summary + fig_batch_screen.png
+python3 src/verify_candidates.py                      # adjudicate template matches
 ```
 
 Data credits: OOI Regional Cabled Array via EarthScope (IRIS) FDSN services; USGS earthquake catalog.

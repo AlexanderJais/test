@@ -29,6 +29,8 @@ are actually localized.
 - `src/localize_tdoa.py` — TDOA hyperbolic localization, validated on a M5.0 T-phase (part 2)
 - `src/signature_features.py` — propulsion-signature screening: DEMON, kurtosis, spike trains (part 2)
 - `src/plasma_transient_search.py` — full-bandwidth plasma-discharge transient template search (part 2)
+- `src/batch_screen.py` — archive-scale daily screening campaign, disk-bounded streaming (part 2)
+- `src/verify_candidates.py` — pulse-physics adjudication of template matches (part 2)
 - `figures/` — generated figures used in the report
 - `results/` — per-slice detected-line tables and the feature catalog
 
