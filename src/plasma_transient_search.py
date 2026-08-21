@@ -329,7 +329,7 @@ def find_periodic_chains(times, period_range=(0.05, 5.0), n_min=8,
     """
     t = np.sort(np.asarray(times, dtype=float))
     n = len(t)
-    if n < n_min:
+    if n < n_min or t[-1] <= t[0]:
         return []
     # pairwise diffs within range (bounded per event by period_range[1])
     diffs = []
@@ -439,7 +439,9 @@ def mine_chains(times, heights, n_min=8):
     # and strong pings dominate the totals. Slide a 6 dB window in 3 dB
     # steps across the height distribution.
     logh = 20 * np.log10(np.maximum(heights, 1e-12))
-    for lo in np.arange(np.floor(logh.min()), logh.max(), 3.0):
+    lrange = (np.arange(np.floor(logh.min()), logh.max(), 3.0)
+              if logh.size else [])
+    for lo in lrange:
         band = np.nonzero((logh >= lo) & (logh < lo + 6.0))[0]
         if n_min <= len(band) <= 2000:
             tiers.append(band)
