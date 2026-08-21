@@ -145,7 +145,9 @@ def classify_train(evs):
     tt = np.array([e["t_s"] for e in evs[:-1]])
     drift = float(np.polyfit(tt, ipi, 1)[0] / np.mean(ipi)) if len(ipi) > 3 \
         else np.nan
-    med = lambda k: float(np.median([e[k] for e in evs]))
+    # tolerate events lacking waveform features (batch mode subsamples
+    # feature extraction on very dense click storms; timing uses all)
+    med = lambda k: float(np.median([e[k] for e in evs if k in e]))
     stats = {"n": len(evs), "rate_hz": round(1.0 / float(np.mean(ipi)), 3),
              "ipi_cv": round(cv, 3),
              "ipi_drift_per_s": round(drift, 5) if np.isfinite(drift)
