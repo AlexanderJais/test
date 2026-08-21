@@ -1,0 +1,197 @@
+{
+ "template": {
+  "n_min": 8,
+  "ipi_cv_max": 0.05,
+  "frac_bw_min": 0.5,
+  "dur_ms_max": 5
+ },
+ "n_candidates": 0,
+ "slices": [
+  {
+   "slice": "MARS_20220101_000507",
+   "n_events": 0,
+   "trains": [],
+   "isolated": 0
+  },
+  {
+   "slice": "MARS_20220214_090758",
+   "n_events": 1,
+   "trains": [],
+   "isolated": 1
+  },
+  {
+   "slice": "MARS_20220315_120334",
+   "n_events": 152,
+   "trains": [
+    {
+     "n": 39,
+     "rate_hz": 10.278,
+     "ipi_cv": 1.224,
+     "ipi_drift_per_s": 0.51083,
+     "med_dur_ms": 0.148,
+     "med_centroid_hz": 46332.0,
+     "med_frac_bw": 1.69,
+     "med_echo_lag_ms": 0.36,
+     "class": "odontocete click activity (single or overlapping trains)",
+     "t_start_s": 0.0307
+    },
+    {
+     "n": 56,
+     "rate_hz": 12.225,
+     "ipi_cv": 3.073,
+     "ipi_drift_per_s": 1.94133,
+     "med_dur_ms": 0.17,
+     "med_centroid_hz": 43904.0,
+     "med_frac_bw": 1.85,
+     "med_echo_lag_ms": 0.6,
+     "class": "odontocete click activity (single or overlapping trains)",
+     "t_start_s": 25.906
+    },
+    {
+     "n": 38,
+     "rate_hz": 9.246,
+     "ipi_cv": 1.555,
+     "ipi_drift_per_s": -0.69275,
+     "med_dur_ms": 0.152,
+     "med_centroid_hz": 42890.0,
+     "med_frac_bw": 1.8,
+     "med_echo_lag_ms": 0.62,
+     "class": "odontocete click activity (single or overlapping trains)",
+     "t_start_s": 48.85
+    }
+   ],
+   "isolated": 19
+  },
+  {
+   "slice": "MARS_20220404_150119",
+   "n_events": 0,
+   "trains": [],
+   "isolated": 0
+  },
+  {
+   "slice": "MARS_20220510_060641",
+   "n_events": 0,
+   "trains": [],
+   "isolated": 0
+  },
+  {
+   "slice": "MARS_20220616_000151",
+   "n_events": 45,
+   "trains": [
+    {
+     "n": 21,
+     "rate_hz": 3.335,
+     "ipi_cv": 1.462,
+     "ipi_drift_per_s": -0.16978,
+     "med_dur_ms": 0.168,
+     "med_centroid_hz": 18500.0,
+     "med_frac_bw": 2.41,
+     "med_echo_lag_ms": 2.23,
+     "class": "odontocete click activity (single or overlapping trains)",
+     "t_start_s": 6.72
+    },
+    {
+     "n": 13,
+     "rate_hz": 2.127,
+     "ipi_cv": 1.149,
+     "ipi_drift_per_s": -0.2171,
+     "med_dur_ms": 0.148,
+     "med_centroid_hz": 18732.0,
+     "med_frac_bw": 2.38,
+     "med_echo_lag_ms": 2.05,
+     "class": "odontocete click activity (single or overlapping trains)",
+     "t_start_s": 23.8449
+    }
+   ],
+   "isolated": 11
+  },
+  {
+   "slice": "MARS_20220720_180029",
+   "n_events": 1,
+   "trains": [],
+   "isolated": 1
+  },
+  {
+   "slice": "MARS_20220808_120016",
+   "n_events": 3,
+   "trains": [],
+   "isolated": 3
+  },
+  {
+   "slice": "MARS_20220905_030016",
+   "n_events": 3636,
+   "trains": [
+    {
+     "n": 3636,
+     "rate_hz": 60.589,
+     "ipi_cv": 0.934,
+     "ipi_drift_per_s": -0.0026,
+     "med_dur_ms": 0.164,
+     "med_centroid_hz": 37924.0,
+     "med_frac_bw": 1.61,
+     "med_echo_lag_ms": 0.43,
+     "class": "odontocete click activity (single or overlapping trains)",
+     "t_start_s": 0.0054
+    }
+   ],
+   "isolated": 0
+  },
+  {
+   "slice": "MARS_20221010_060114",
+   "n_events": 453,
+   "trains": [
+    {
+     "n": 453,
+     "rate_hz": 7.701,
+     "ipi_cv": 2.787,
+     "ipi_drift_per_s": -0.00049,
+     "med_dur_ms": 4.297,
+     "med_centroid_hz": 38047.0,
+     "med_frac_bw": 0.03,
+     "med_echo_lag_ms": 0.32,
+     "class": "echosounder / engineered narrowband ping activity",
+     "t_start_s": 0.198
+    }
+   ],
+   "isolated": 0
+  },
+  {
+   "slice": "MARS_20221125_210455",
+   "n_events": 354,
+   "trains": [
+    {
+     "n": 354,
+     "rate_hz": 6.016,
+     "ipi_cv": 2.488,
+     "ipi_drift_per_s": 1e-05,
+     "med_dur_ms": 3.715,
+     "med_centroid_hz": 38114.0,
+     "med_frac_bw": 0.03,
+     "med_echo_lag_ms": 0.32,
+     "class": "echosounder / engineered narrowband ping activity",
+     "t_start_s": 0.6246
+    }
+   ],
+   "isolated": 0
+  },
+  {
+   "slice": "MARS_20221220_210208",
+   "n_events": 453,
+   "trains": [
+    {
+     "n": 453,
+     "rate_hz": 7.704,
+     "ipi_cv": 2.825,
+     "ipi_drift_per_s": -0.00207,
+     "med_dur_ms": 4.152,
+     "med_centroid_hz": 38071.0,
+     "med_frac_bw": 0.03,
+     "med_echo_lag_ms": 0.32,
+     "class": "echosounder / engineered narrowband ping activity",
+     "t_start_s": 0.9839
+    }
+   ],
+   "isolated": 0
+  }
+ ]
+}

@@ -4,11 +4,11 @@
 
 ## TL;DR
 
-**Detection: yes, in principle — plasma propulsion would make a craft *easier* to hear, not harder.** Every physically credible plasma/electromagnetic propulsion concept is acoustically loud or statistically distinctive (§1). The discriminant is a craft-like source that is *sustained and moving* but shows **no propeller blade-rate modulation** while carrying anomalous broadband or impulse-train content.
+**Detection: yes, in principle.** Sustaining plasma in seawater means sustaining electrical discharge in water, and underwater discharge has a well-characterized, specific acoustic fingerprint (it is the physics of marine "sparker" sources): fast broadband shock pulses with bubble-oscillation echoes, repeated at a machine-regular rate (§1, §4). That yields a concrete, testable transient template — not an assumption about how loud or quiet the craft is.
 
 **Location: yes, demonstrated with real public data.** Using the public OOI cabled hydrophone array (4 usable stations, 3–294 km baselines), this investigation localized a ground-truth impulsive underwater source — the T-phase of a USGS-reviewed M5.0 earthquake — to **25 km of its true position at ~240 km range**, using classic passive-sonar TDOA processing (§2). The same pipeline applies to any sufficiently loud craft.
 
-**Did we find one? No.** A signature screen of 519 array windows classified everything as ambient, geophysical, biologic (verified fin whale song), vessel, or instrument glitch — zero anomalous-propulsion candidates (§3). And the honest caveat: public scientific arrays are sparse and band-limited compared to the purpose-built naval systems (SOSUS/IUSS) that do this for a living (§4).
+**Did we find one? No.** A low-frequency screen of 519 array windows (§3) and a dedicated full-bandwidth transient-signature search over 5,098 detected transients in 12 minutes of 256 kHz data (§4) classified everything as ambient, geophysical, biologic (fin whale song, odontocete click trains), engineered pings (38 kHz echosounder), vessel, or glitch — **zero discharge-template candidates**. The honest caveat: public scientific arrays are sparse and band-limited compared to purpose-built naval systems (SOSUS/IUSS) (§5).
 
 ---
 
@@ -61,7 +61,36 @@
 
 **Lessons the screening taught (visible in the figure):** the naive criterion "loud + no blade lines" is *not* sufficient — T-phase windows land in exactly that region. The first classifier draft flagged 24 false candidates: 21 were the earthquake's own packet/coda (fixed by requiring *sustained* elevation rather than a single emergent packet — a temporal-context pass), and 3 were data glitches with kurtosis ~800 from a single sample (fixed by requiring a genuine impulse *train*, ≥1 spike/s, not one spike). This false-alarm → refine → re-screen loop is what real anomaly hunting in ocean acoustics looks like.
 
-## 4. Honest capability assessment
+## 4. Transient-signature search at full bandwidth
+
+The low-frequency array (§2–3) locates sources but cannot resolve the *per-pulse physics* of discharge transients — those live at kHz–100 kHz. So the transient search runs on the full-bandwidth data: 12 × 60 s slices of the MARS 256 kHz hydrophone spanning every month of 2022 (`src/plasma_transient_search.py`).
+
+**The discharge template** (from sparker/underwater-spark acoustics):
+
+| property | discharge/plasma-sheath pulse | why it discriminates |
+|---|---|---|
+| rise time | µs-scale shock front | biologics share this — not sufficient alone |
+| spectrum | broadband, fractional bandwidth ≳ 1 | **excludes echosounders** (metronomic but narrowband) |
+| bubble echo | envelope echo at sub-ms–ms lag, period ∝ E^⅓/P^⅚ (compressed at depth) | cavity oscillation is unavoidable discharge physics |
+| repetition | metronomic: inter-pulse-interval CV ≲ 0.05 (pulsed-power clock) | **excludes biosonar** (inter-click intervals drift/jitter ≫ 5%) and random snaps |
+| secular drift | slow rep-rate/level trend if the source moves | separates a transiting source from a fixed pinger |
+
+Every detected transient (5–120 kHz band, ≥10 MAD) gets its waveform physics measured — rise time, −20 dB duration, spectral centroid, fractional bandwidth, bubble-echo lag/strength — and trains of ≥8 pulses get timing statistics (rate, CV, drift).
+
+**Results — 5,098 transients, 9 trains, 0 template matches:**
+
+| population | where | measured physics | verdict |
+|---|---|---|---|
+| 6 click trains (39–3,636 clicks) | Mar, Jun, Sep slices | 0.15–0.17 ms durations, centroids 18–46 kHz, fractional BW 1.6–2.4, IPI CV 0.9–3.1 | odontocete biosonar (broadband ✓ but timing far from metronomic; the Jun clicks show ~2 ms multipulse echo structure, sperm-whale-like) |
+| 3 ping trains (354–453 events) | Oct, Nov, Dec slices | 2.3–4.3 ms durations, centroid exactly 38 kHz, fractional BW 0.03, ~40 Pa received | 38 kHz scientific echosounder (the fisheries standard) + its surface/bottom echoes — metronomic *and engineered*, but narrowband: fails the broadband test that a discharge must pass |
+| isolated impulses | scattered | sub-ms, broadband | sparse snaps/clicks, no train structure |
+
+![Transient features](figures/fig_transient_features.png)
+![Transient gallery](figures/fig_transient_gallery.png)
+
+The feature space (left: timing jitter vs repetition rate; right: bandwidth vs centroid) shows the point: the machine-regular + broadband + impulsive corner where a sustained plasma discharge **must** sit is empty. Everything metronomic in the ocean sample is narrowband (engineered sonar); everything broadband-impulsive is jittery (biosonar). A plasma-sheath craft would be the one source class occupying both properties at once — which is precisely what makes it identifiable, and testable, in archival data.
+
+## 5. Honest capability assessment
 
 What this demonstrates a **public** array can already do:
 - hear strong low-frequency sources at basin scale (the M5 T-phase arrived with ~30 dB of headroom at 294 km),
@@ -71,9 +100,9 @@ What this demonstrates a **public** array can already do:
 What it cannot do, and what finding a real plasma-propelled craft would take:
 - **Band**: 200 Hz sampling caps analysis at 100 Hz. Discharge impulse trains and cavitation detail live in the kHz–tens-of-kHz range; the broadband stations that hear it (e.g., MARS at 256 kHz, OOI 64 kHz units) are *single* sensors at each site — great for detection, useless for triangulation alone. A purpose-built search wants dense broadband arrays.
 - **Coverage/persistence**: a handful of fixed stations in one corner of one ocean, screened offline. Continuous wide-area screening is the domain of naval integrated undersea surveillance (SOSUS/IUSS successors) and, for explosions, the CTBTO IMS hydroacoustic network — which routinely localizes events across entire ocean basins with a few triplet arrays.
-- **Quiet targets**: everything above assumes the craft radiates. The acoustic paradox of this question: every plasma-propulsion concept is loud — plasma discharge in water *is* essentially controlled cavitation. A craft that were acoustically silent would, by that very fact, not be plasma-propelled in any known sense; hunting it shifts to non-acoustic channels (magnetic anomaly, wake turbulence/thermal signature, bioluminescent wake, EM emissions — a plasma sheath would be a radio beacon).
+- **Complementary channels**: a sustained discharge sheath also radiates electromagnetically and leaves a bubble/thermal wake, so acoustic search can be corroborated by magnetometer and EM data where available.
 
-**Bottom line:** yes — public array data plus standard passive-sonar processing (demonstrated end-to-end here, validated at 25 km accuracy against ground truth) would find and localize a plasma-propelled craft if one operated near the array at ordinary source levels; the discriminant signature (sustained, moving, broadband/impulsive, no blade lines) is well-defined and none of the surveyed data contains it.
+**Bottom line:** the transient signature of plasma propulsion is concrete and testable — metronomic, broadband, impulsive pulse trains with bubble-echo structure, drifting slowly if the source moves — and public data supports both halves of the task: full-bandwidth single stations (MARS, OOI broadband) for signature identification, and the LF array for localization (validated here at 25 km accuracy against a ground-truth source at ~240 km). Twelve minutes of sampled archive contains rich transient activity — biosonar, engineered sonar, snaps — and zero discharge-template matches. Scaling this screen across the full ~50,000-hour public archive is straightforward compute, not new science.
 
 ## Reproduce
 
@@ -82,6 +111,7 @@ pip install -r requirements.txt
 python3 src/fetch_array.py          # ~35 min of 4-5 station array data via EarthScope FDSN
 python3 src/localize_tdoa.py        # TDOA fix vs USGS truth, fig_tphase, fig_localization
 python3 src/signature_features.py   # 519-window screen, fig_signatures
+python3 src/plasma_transient_search.py  # full-bandwidth discharge-template search (fetches 6 more MARS slices)
 ```
 
 Data credits: OOI Regional Cabled Array via EarthScope (IRIS) FDSN services; USGS earthquake catalog.

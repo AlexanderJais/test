@@ -28,6 +28,7 @@ are actually localized.
 - `src/fetch_array.py` — OOI cabled-array hydrophone download via EarthScope FDSN (part 2)
 - `src/localize_tdoa.py` — TDOA hyperbolic localization, validated on a M5.0 T-phase (part 2)
 - `src/signature_features.py` — propulsion-signature screening: DEMON, kurtosis, spike trains (part 2)
+- `src/plasma_transient_search.py` — full-bandwidth plasma-discharge transient template search (part 2)
 - `figures/` — generated figures used in the report
 - `results/` — per-slice detected-line tables and the feature catalog
 
