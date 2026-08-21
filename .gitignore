@@ -3,3 +3,4 @@ data/
 results/*.npz
 results/batch_screen_*_v2.jsonl
 results/batch_screen_*_v3.jsonl
+results/deep_dive*.jsonl
