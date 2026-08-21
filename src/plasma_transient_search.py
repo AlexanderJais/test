@@ -300,3 +300,186 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# ---------------------------------------------------------------------------
+# Periodicity mining (PRI deinterleaving). The gap-based train clustering
+# above describes the transient population well, but injection testing
+# exposed two structural blind spots for CANDIDATE DETECTION: trains with
+# period >= TRAIN_GAP_S fragment into undersized pieces, and trains
+# interleaved with biosonar/echosounder activity inherit huge timing CV.
+# A periodic source must instead be sought as a periodic CHAIN inside the
+# mixed event stream, tolerant of interlopers and missing pulses.
+# ---------------------------------------------------------------------------
+
+def find_periodic_chains(times, period_range=(0.05, 5.0), n_min=8,
+                         rel_tol=0.012, max_skip=1, max_periods=30):
+    """Extract metronomic chains from a mixed stream of event times.
+
+    1. histogram all pairwise time differences within period_range,
+    2. take the strongest histogram peaks as candidate periods,
+    3. greedily grow chains event->event at the candidate period
+       (tolerance max(rel_tol*T, 8 ms), riding over up to max_skip
+       missing pulses),
+    4. keep chains with >= n_min members whose per-step period estimates
+       have CV < 0.05; dedupe chains sharing >50% of members.
+
+    Returns a list of (member_time_array, period_s).
+    """
+    t = np.sort(np.asarray(times, dtype=float))
+    n = len(t)
+    if n < n_min:
+        return []
+    # pairwise diffs within range (bounded per event by period_range[1])
+    diffs = []
+    j0 = 0
+    for i in range(n):
+        j = i + 1
+        while j < n and t[j] - t[i] <= period_range[1]:
+            if t[j] - t[i] >= period_range[0]:
+                diffs.append(t[j] - t[i])
+            j += 1
+    if len(diffs) < n_min - 1:
+        return []
+    diffs = np.array(diffs)
+    binw = 0.002
+    hist, edges = np.histogram(diffs, bins=int(
+        (period_range[1] - period_range[0]) / binw))
+    # windowed SUM (not average): a period concentrated in one 2 ms bin
+    # must not be diluted below threshold by its empty neighbors
+    score = np.convolve(hist, np.ones(5), mode="same")
+    order = np.argsort(score)[::-1]
+    periods, used_bins = [], np.zeros(len(score), bool)
+    for b in order:
+        if len(periods) >= max_periods or score[b] < (n_min - 1) * 0.6:
+            break
+        if used_bins[max(0, b - 3):b + 4].any():
+            continue
+        used_bins[b] = True
+        periods.append(0.5 * (edges[b] + edges[b + 1]))
+
+    chains = []
+    for T in periods:
+        tol = max(rel_tol * T, 0.005)
+        # seeds: events that begin a T-spaced pair
+        seeds = [i for i in range(n - 1)
+                 if np.any(np.abs(t[i + 1:] - t[i] - T) < tol)][:60]
+        best = None
+        for s in seeds:
+            chain = [t[s]]
+            while True:
+                nxt = None
+                for skip in range(1, max_skip + 2):
+                    pred = chain[-1] + skip * T
+                    if pred > t[-1] + tol:
+                        break
+                    j = np.searchsorted(t, pred)
+                    for jj in (j - 1, j):
+                        if 0 <= jj < n and abs(t[jj] - pred) < tol * skip \
+                                and t[jj] > chain[-1]:
+                            nxt = t[jj]
+                            break
+                    if nxt is not None:
+                        break
+                if nxt is None:
+                    break
+                chain.append(nxt)
+            if best is None or len(chain) > len(best):
+                best = chain
+        if best is None or len(best) < n_min:
+            continue
+        steps = np.diff(best)
+        per_step = steps / np.round(steps / T)
+        if np.std(per_step) / np.mean(per_step) >= 0.05:
+            continue
+        chains.append((np.array(best), float(np.mean(per_step))))
+    # dedupe by member overlap, longest first
+    chains.sort(key=lambda c: -len(c[0]))
+    kept = []
+    for ch, T in chains:
+        if all(len(np.intersect1d(np.round(ch, 4), np.round(k0, 4)))
+               <= 0.5 * len(ch) for k0, _ in kept):
+            kept.append((ch, T))
+    return kept
+
+
+def _max_chance_chain(times, n_surrogates=3, seed=0):
+    """Longest chain the builder produces on Poisson surrogates with the
+    same event density: the chance floor for chain significance."""
+    rng = np.random.default_rng(seed)
+    t = np.asarray(times)
+    if len(t) < 2:
+        return 0
+    span = t[-1] - t[0]
+    m = 0
+    for _ in range(n_surrogates):
+        surr = np.sort(t[0] + rng.uniform(0, span, len(t)))
+        for ch, _T in find_periodic_chains(surr):
+            m = max(m, len(ch))
+    return m
+
+
+def mine_chains(times, heights, n_min=8):
+    """Amplitude-tiered periodic-chain mining with chance-level control.
+
+    Dense biologic activity swamps the pairwise-interval histogram, so
+    chains are mined in amplitude tiers (all events, top-600, top-150 by
+    peak height) where a strong periodic source stands out. Each tier's
+    chains must exceed that tier's Poisson chance floor.
+    """
+    times = np.asarray(times)
+    heights = np.asarray(heights)
+    tiers = [np.arange(len(times))]
+    for k in (600, 150):
+        if len(times) > k:
+            tiers.append(np.sort(np.argsort(heights)[-k:]))
+    kept = []
+    for tier in tiers:
+        t = times[tier]
+        found = find_periodic_chains(t, n_min=n_min)
+        if not found:
+            continue
+        floor = _max_chance_chain(t)
+        for ch, T in found:
+            if len(ch) < max(n_min, floor + 2):
+                continue
+            if all(len(np.intersect1d(np.round(ch, 4), np.round(k0, 4)))
+                   <= 0.5 * len(ch) for k0, _ in kept):
+                kept.append((ch, T))
+    return kept
+
+
+def screen_events(x, env, fs, peaks, heights, feature_cap=1000):
+    """Shared screening core: gap-clustered trains (population
+    description) plus periodicity-mined chains (candidate detection).
+    Returns (gap_train_stats, chain_stats)."""
+    feat_idx = set(np.linspace(0, len(peaks) - 1,
+                               min(len(peaks), feature_cap)).astype(int)
+                   ) if len(peaks) else set()
+    evs = [event_features(x, env, fs, i) if j in feat_idx
+           else {"t_s": round(i / fs, 4)}
+           for j, i in enumerate(peaks)]
+    gap_trains, cur = [], []
+    for e in evs:
+        if cur and e["t_s"] - cur[-1]["t_s"] > TRAIN_GAP_S:
+            gap_trains.append(cur)
+            cur = []
+        cur.append(e)
+    if cur:
+        gap_trains.append(cur)
+    gap_stats = [classify_train(t) | {"t_start_s": t[0]["t_s"]}
+                 for t in gap_trains if len(t) >= TRAIN_MIN_N]
+
+    chain_stats = []
+    times = peaks / fs
+    for ch, T in mine_chains(times, heights):
+        idx = np.searchsorted(times, ch - 1e-4)
+        members = [event_features(x, env, fs, int(peaks[i]))
+                   for i in idx[:200]]
+        st = classify_train(members)
+        st["t_start_s"] = round(float(ch[0]), 3)
+        st["n"] = len(ch)
+        st["rate_hz"] = round(1.0 / T, 3)
+        st["path"] = "chain"
+        chain_stats.append(st)
+    return gap_stats, chain_stats

@@ -35,9 +35,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from plasma_transient_search import (detect, event_features, classify_train,
-                                     load_pressure_pa, TRAIN_GAP_S,
-                                     TRAIN_MIN_N, DET_BAND)
+from plasma_transient_search import (detect, load_pressure_pa,
+                                     screen_events, DET_BAND)
 
 ALPHAS = [0.0, 0.7, 1.0, 1.5, 2.0, 3.0, 5.0]
 RATES_HZ = [0.5, 2.0, 8.0]
@@ -62,23 +61,12 @@ def make_pulse(fs, rng):
 
 
 def screen(p, fs):
-    """The batch-screen pipeline: detect -> features -> trains."""
-    x, env, peaks, _ = detect(p, fs)
-    feat_idx = set(np.linspace(0, len(peaks) - 1,
-                               min(len(peaks), FEATURE_CAP)).astype(int)
-                   ) if len(peaks) else set()
-    evs = [event_features(x, env, fs, i) if j in feat_idx
-           else {"t_s": round(i / fs, 4)}
-           for j, i in enumerate(peaks)]
-    trains, cur = [], []
-    for e in evs:
-        if cur and e["t_s"] - cur[-1]["t_s"] > TRAIN_GAP_S:
-            trains.append(cur)
-            cur = []
-        cur.append(e)
-    if cur:
-        trains.append(cur)
-    return [classify_train(t) for t in trains if len(t) >= TRAIN_MIN_N]
+    """The v2 batch-screen pipeline: gap trains + periodicity-mined
+    chains (see plasma_transient_search.screen_events)."""
+    x, env, peaks, heights = detect(p, fs)
+    gap, chains = screen_events(x, env, fs, peaks, heights,
+                                feature_cap=FEATURE_CAP)
+    return gap + chains
 
 
 def run_slice(path):

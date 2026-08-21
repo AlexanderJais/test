@@ -32,9 +32,8 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fetch_data import fetch_slice, list_keys
-from plasma_transient_search import (detect, event_features, classify_train,
-                                     load_pressure_pa, TRAIN_GAP_S,
-                                     TRAIN_MIN_N)
+from plasma_transient_search import (detect, load_pressure_pa,
+                                     screen_events)
 
 FEATURE_CAP = 3000     # max per-event waveform-feature extractions per slice
 
@@ -78,36 +77,15 @@ def screen_day(args):
             rec["status"] = "no_data"
             return rec
         p, fs = load_pressure_pa(path)
-        x, env, peaks, _ = detect(p, fs)
-        feat_idx = set(np.linspace(0, len(peaks) - 1,
-                                   min(len(peaks), FEATURE_CAP)).astype(int)
-                       ) if len(peaks) else set()
-        evs = []
-        for j, i in enumerate(peaks):
-            e = event_features(x, env, fs, i) if j in feat_idx \
-                else {"t_s": round(i / fs, 4)}
-            evs.append(e)
-        trains, cur = [], []
-        for e in evs:
-            if cur and e["t_s"] - cur[-1]["t_s"] > TRAIN_GAP_S:
-                trains.append(cur)
-                cur = []
-            cur.append(e)
-        if cur:
-            trains.append(cur)
+        x, env, peaks, heights = detect(p, fs)
+        gap, chains = screen_events(x, env, fs, peaks, heights,
+                                    feature_cap=FEATURE_CAP)
         rec["status"] = "ok"
-        rec["n_events"] = len(evs)
-        rec["trains"] = []
-        rec["isolated"] = 0
-        for tr in trains:
-            if len(tr) >= TRAIN_MIN_N:
-                st = classify_train(tr)
-                st["t_start_s"] = tr[0]["t_s"]
-                rec["trains"].append(st)
-            else:
-                rec["isolated"] += len(tr)
+        rec["n_events"] = int(len(peaks))
+        rec["trains"] = gap
+        rec["chains"] = chains
         rec["n_candidates"] = sum(
-            1 for t in rec["trains"] if t["class"].startswith("DISCHARGE"))
+            1 for t in gap + chains if t["class"].startswith("DISCHARGE"))
     except Exception as e:
         rec["status"] = f"error: {type(e).__name__}: {e}"
     finally:
@@ -148,20 +126,24 @@ def run_year(year, seconds, workers, out_path, tmpdir):
     print(f"{year} complete: {n_done} days, {n_cand} candidates")
 
 
+TAG = ""
+
+
 def aggregate(figdir="figures", out="results"):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     recs = []
-    for path in sorted(glob.glob(os.path.join(out, "batch_screen_*.jsonl"))):
+    pat = f"batch_screen_*{TAG}.jsonl" if TAG else "batch_screen_2???.jsonl"
+    for path in sorted(glob.glob(os.path.join(out, pat))):
         with open(path) as fh:
             recs += [json.loads(l) for l in fh if l.strip()]
     ok = [r for r in recs if r.get("status") == "ok"]
     n_cand = sum(r.get("n_candidates", 0) for r in ok)
     cls_days = {}
     for r in ok:
-        for t in r["trains"]:
+        for t in r["trains"] + r.get("chains", []):
             key = t["class"].split(" (")[0]
             cls_days.setdefault(key, set()).add(r["date"])
     summary = {
@@ -235,12 +217,16 @@ def main():
     ap.add_argument("--tmp", default=os.environ.get(
         "BATCH_TMP", "data/batch_tmp"))
     ap.add_argument("--aggregate", action="store_true")
+    ap.add_argument("--tag", default="", help="output filename suffix, "
+                    "e.g. _v2 for the chain-mining rescreen")
     args = ap.parse_args()
     if args.aggregate:
+        globals()["TAG"] = args.tag
         aggregate()
     else:
         run_year(args.year, args.seconds, args.workers,
-                 f"results/batch_screen_{args.year}.jsonl", args.tmp)
+                 f"results/batch_screen_{args.year}{args.tag}.jsonl",
+                 args.tmp)
 
 
 if __name__ == "__main__":
