@@ -1,0 +1,746 @@
+[
+ {
+  "slice": "MARS_20220101_000507",
+  "control": true,
+  "false_triggers": 0,
+  "n_triggers": 5
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "t_q": 15.0,
+  "alpha": 1.0,
+  "recovered": false,
+  "decaying": false
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "t_q": 15.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "t_q": 15.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "t_q": 15.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "t_q": 35.0,
+  "alpha": 1.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "t_q": 35.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "t_q": 35.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "t_q": 35.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "control": true,
+  "false_triggers": 0,
+  "n_triggers": 5
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "t_q": 15.0,
+  "alpha": 1.0,
+  "recovered": false,
+  "decaying": false
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "t_q": 15.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "t_q": 15.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "t_q": 15.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "t_q": 35.0,
+  "alpha": 1.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "t_q": 35.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "t_q": 35.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "t_q": 35.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "control": true,
+  "false_triggers": 0,
+  "n_triggers": 5
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "t_q": 15.0,
+  "alpha": 1.0,
+  "recovered": false,
+  "decaying": false
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "t_q": 15.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "t_q": 15.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "t_q": 15.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "t_q": 35.0,
+  "alpha": 1.0,
+  "recovered": false,
+  "decaying": false
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "t_q": 35.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "t_q": 35.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "t_q": 35.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "control": true,
+  "false_triggers": 0,
+  "n_triggers": 5
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "t_q": 15.0,
+  "alpha": 1.0,
+  "recovered": false,
+  "decaying": false
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "t_q": 15.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "t_q": 15.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "t_q": 15.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "t_q": 35.0,
+  "alpha": 1.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "t_q": 35.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "t_q": 35.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "t_q": 35.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "control": true,
+  "false_triggers": 0,
+  "n_triggers": 5
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "t_q": 15.0,
+  "alpha": 1.0,
+  "recovered": false,
+  "decaying": false
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "t_q": 15.0,
+  "alpha": 2.0,
+  "recovered": false,
+  "decaying": false
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "t_q": 15.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "t_q": 15.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "t_q": 35.0,
+  "alpha": 1.0,
+  "recovered": false,
+  "decaying": false
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "t_q": 35.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "t_q": 35.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "t_q": 35.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "control": true,
+  "false_triggers": 0,
+  "n_triggers": 5
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "t_q": 15.0,
+  "alpha": 1.0,
+  "recovered": false,
+  "decaying": false
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "t_q": 15.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "t_q": 15.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "t_q": 15.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "t_q": 35.0,
+  "alpha": 1.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "t_q": 35.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "t_q": 35.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "t_q": 35.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "control": true,
+  "false_triggers": 0,
+  "n_triggers": 5
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "t_q": 15.0,
+  "alpha": 1.0,
+  "recovered": false,
+  "decaying": false
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "t_q": 15.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "t_q": 15.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "t_q": 15.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "t_q": 35.0,
+  "alpha": 1.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "t_q": 35.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "t_q": 35.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "t_q": 35.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "control": true,
+  "false_triggers": 0,
+  "n_triggers": 5
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "t_q": 15.0,
+  "alpha": 1.0,
+  "recovered": false,
+  "decaying": false
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "t_q": 15.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "t_q": 15.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "t_q": 15.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "t_q": 35.0,
+  "alpha": 1.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "t_q": 35.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "t_q": 35.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "t_q": 35.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "control": true,
+  "false_triggers": 0,
+  "n_triggers": 5
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "t_q": 15.0,
+  "alpha": 1.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "t_q": 15.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "t_q": 15.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "t_q": 15.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "t_q": 35.0,
+  "alpha": 1.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "t_q": 35.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "t_q": 35.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "t_q": 35.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "control": true,
+  "false_triggers": 0,
+  "n_triggers": 5
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "t_q": 15.0,
+  "alpha": 1.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "t_q": 15.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "t_q": 15.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "t_q": 15.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "t_q": 35.0,
+  "alpha": 1.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "t_q": 35.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "t_q": 35.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "t_q": 35.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "control": true,
+  "false_triggers": 0,
+  "n_triggers": 5
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "t_q": 15.0,
+  "alpha": 1.0,
+  "recovered": false,
+  "decaying": false
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "t_q": 15.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "t_q": 15.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "t_q": 15.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "t_q": 35.0,
+  "alpha": 1.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "t_q": 35.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "t_q": 35.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "t_q": 35.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "control": true,
+  "false_triggers": 0,
+  "n_triggers": 5
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "t_q": 15.0,
+  "alpha": 1.0,
+  "recovered": false,
+  "decaying": false
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "t_q": 15.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "t_q": 15.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "t_q": 15.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "t_q": 35.0,
+  "alpha": 1.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "t_q": 35.0,
+  "alpha": 2.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "t_q": 35.0,
+  "alpha": 4.0,
+  "recovered": true,
+  "decaying": true
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "t_q": 35.0,
+  "alpha": 8.0,
+  "recovered": true,
+  "decaying": true
+ }
+]

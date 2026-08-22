@@ -1,0 +1,1082 @@
+[
+ {
+  "slice": "MARS_20220101_000507",
+  "control": true,
+  "false_transit": false,
+  "false_v_kn": 33.9
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "v_kn": 50.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "v_kn": 50.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "v_kn": 50.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "v_kn": 50.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "v_kn": 150.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "v_kn": 150.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "v_kn": 150.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "v_kn": 150.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "v_kn": 400.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 399.8
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "v_kn": 400.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "v_kn": 400.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "v_kn": 400.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "control": true,
+  "false_transit": false,
+  "false_v_kn": 1.9
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "v_kn": 50.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "v_kn": 50.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "v_kn": 50.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "v_kn": 50.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "v_kn": 150.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "v_kn": 150.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "v_kn": 150.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "v_kn": 150.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "v_kn": 400.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 399.8
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "v_kn": 400.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "v_kn": 400.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "v_kn": 400.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "control": true,
+  "false_transit": false,
+  "false_v_kn": 1.9
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "v_kn": 50.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "v_kn": 50.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "v_kn": 50.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "v_kn": 50.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "v_kn": 150.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "v_kn": 150.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "v_kn": 150.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "v_kn": 150.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "v_kn": 400.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 399.6
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "v_kn": 400.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "v_kn": 400.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "v_kn": 400.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "control": true,
+  "false_transit": false,
+  "false_v_kn": 1.9
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "v_kn": 50.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "v_kn": 50.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "v_kn": 50.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "v_kn": 50.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "v_kn": 150.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "v_kn": 150.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "v_kn": 150.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "v_kn": 150.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "v_kn": 400.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 399.2
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "v_kn": 400.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "v_kn": 400.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "v_kn": 400.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "control": true,
+  "false_transit": false,
+  "false_v_kn": 1.9
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "v_kn": 50.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "v_kn": 50.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "v_kn": 50.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "v_kn": 50.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "v_kn": 150.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "v_kn": 150.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "v_kn": 150.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "v_kn": 150.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "v_kn": 400.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 399.6
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "v_kn": 400.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "v_kn": 400.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "v_kn": 400.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "control": true,
+  "false_transit": false,
+  "false_v_kn": 1.9
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "v_kn": 50.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "v_kn": 50.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "v_kn": 50.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "v_kn": 50.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "v_kn": 150.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "v_kn": 150.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "v_kn": 150.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "v_kn": 150.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "v_kn": 400.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 398.9
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "v_kn": 400.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "v_kn": 400.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "v_kn": 400.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "control": true,
+  "false_transit": false,
+  "false_v_kn": 1.9
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "v_kn": 50.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "v_kn": 50.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "v_kn": 50.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "v_kn": 50.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "v_kn": 150.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "v_kn": 150.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "v_kn": 150.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "v_kn": 150.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "v_kn": 400.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 399.4
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "v_kn": 400.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "v_kn": 400.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "v_kn": 400.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "control": true,
+  "false_transit": false,
+  "false_v_kn": 1.9
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "v_kn": 50.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "v_kn": 50.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "v_kn": 50.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "v_kn": 50.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "v_kn": 150.0,
+  "snr_db": 0.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "v_kn": 150.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "v_kn": 150.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "v_kn": 150.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "v_kn": 400.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 399.3
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "v_kn": 400.0,
+  "snr_db": 6.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "v_kn": 400.0,
+  "snr_db": 12.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "v_kn": 400.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 400.0
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "control": true,
+  "false_transit": false,
+  "false_v_kn": 423.7
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "v_kn": 50.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 50.1
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "v_kn": 50.0,
+  "snr_db": 6.0,
+  "recovered": false,
+  "fit_v_kn": 50.1
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "v_kn": 50.0,
+  "snr_db": 12.0,
+  "recovered": false,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "v_kn": 50.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "v_kn": 150.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 148.3
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "v_kn": 150.0,
+  "snr_db": 6.0,
+  "recovered": false,
+  "fit_v_kn": 148.9
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "v_kn": 150.0,
+  "snr_db": 12.0,
+  "recovered": false,
+  "fit_v_kn": 149.1
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "v_kn": 150.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "v_kn": 400.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 393.3
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "v_kn": 400.0,
+  "snr_db": 6.0,
+  "recovered": false,
+  "fit_v_kn": 396.0
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "v_kn": 400.0,
+  "snr_db": 12.0,
+  "recovered": false,
+  "fit_v_kn": 397.6
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "v_kn": 400.0,
+  "snr_db": 20.0,
+  "recovered": false,
+  "fit_v_kn": 399.0
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "control": true,
+  "false_transit": false,
+  "false_v_kn": 87.5
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "v_kn": 50.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 51.6
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "v_kn": 50.0,
+  "snr_db": 6.0,
+  "recovered": false,
+  "fit_v_kn": 50.7
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "v_kn": 50.0,
+  "snr_db": 12.0,
+  "recovered": false,
+  "fit_v_kn": 49.4
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "v_kn": 50.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "v_kn": 150.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 148.5
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "v_kn": 150.0,
+  "snr_db": 6.0,
+  "recovered": false,
+  "fit_v_kn": 149.2
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "v_kn": 150.0,
+  "snr_db": 12.0,
+  "recovered": false,
+  "fit_v_kn": 149.1
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "v_kn": 150.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "v_kn": 400.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 394.1
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "v_kn": 400.0,
+  "snr_db": 6.0,
+  "recovered": false,
+  "fit_v_kn": 396.9
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "v_kn": 400.0,
+  "snr_db": 12.0,
+  "recovered": false,
+  "fit_v_kn": 397.8
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "v_kn": 400.0,
+  "snr_db": 20.0,
+  "recovered": false,
+  "fit_v_kn": 399.1
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "control": true,
+  "false_transit": false,
+  "false_v_kn": 14.7
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "v_kn": 50.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 48.7
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "v_kn": 50.0,
+  "snr_db": 6.0,
+  "recovered": false,
+  "fit_v_kn": 49.5
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "v_kn": 50.0,
+  "snr_db": 12.0,
+  "recovered": false,
+  "fit_v_kn": 50.9
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "v_kn": 50.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "v_kn": 150.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 147.3
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "v_kn": 150.0,
+  "snr_db": 6.0,
+  "recovered": false,
+  "fit_v_kn": 148.7
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "v_kn": 150.0,
+  "snr_db": 12.0,
+  "recovered": false,
+  "fit_v_kn": 149.0
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "v_kn": 150.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "v_kn": 400.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 393.6
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "v_kn": 400.0,
+  "snr_db": 6.0,
+  "recovered": false,
+  "fit_v_kn": 395.9
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "v_kn": 400.0,
+  "snr_db": 12.0,
+  "recovered": false,
+  "fit_v_kn": 397.4
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "v_kn": 400.0,
+  "snr_db": 20.0,
+  "recovered": false,
+  "fit_v_kn": 399.2
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "control": true,
+  "false_transit": false,
+  "false_v_kn": 1.9
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "v_kn": 50.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 49.0
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "v_kn": 50.0,
+  "snr_db": 6.0,
+  "recovered": false,
+  "fit_v_kn": 50.1
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "v_kn": 50.0,
+  "snr_db": 12.0,
+  "recovered": false,
+  "fit_v_kn": 49.1
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "v_kn": 50.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 50.0
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "v_kn": 150.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 147.7
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "v_kn": 150.0,
+  "snr_db": 6.0,
+  "recovered": false,
+  "fit_v_kn": 148.8
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "v_kn": 150.0,
+  "snr_db": 12.0,
+  "recovered": false,
+  "fit_v_kn": 149.2
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "v_kn": 150.0,
+  "snr_db": 20.0,
+  "recovered": true,
+  "fit_v_kn": 150.0
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "v_kn": 400.0,
+  "snr_db": 0.0,
+  "recovered": false,
+  "fit_v_kn": 392.8
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "v_kn": 400.0,
+  "snr_db": 6.0,
+  "recovered": false,
+  "fit_v_kn": 395.6
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "v_kn": 400.0,
+  "snr_db": 12.0,
+  "recovered": false,
+  "fit_v_kn": 397.7
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "v_kn": 400.0,
+  "snr_db": 20.0,
+  "recovered": false,
+  "fit_v_kn": 399.2
+ }
+]

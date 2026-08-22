@@ -53,3 +53,75 @@ with trailing Minnaert ring. The slam→pinch delay gives body size **a ≈ g·(
 Entry-doublet detector: **M0 gate PASSED** (measured curve exists). Next M0 detectors:
 quench-tail and Doppler-drift tracker, then M1 pilot. The FP rate mandates that the M1
 pilot treat single-sensor doublets as *candidates for coincidence*, never as detections.
+
+---
+
+# M0 Calibration — Quench-Tail Detector (Discriminant D4)
+
+**What it looks for:** after an entry doublet, a sustained IRREGULAR DECAYING
+impulsive tail (film-boiling "chugging", 5–50 kHz pulses) — the hot-body flag. A cold
+body is silent after pinch-off. Gates: elevation over local baseline, kurtosis > 4,
+ISI CV > 0.5 (rejects the metronomic echosounder), ≥ 4 sustained windows, decaying trend.
+
+**Calibration caught one bug:** the first version measured level in the full 100 Hz–50 kHz
+band, dominated by low-frequency ocean noise, so even 8× injections showed ~0 dB elevation
+(and injection was mis-scaled by peak not RMS). Fixed by detecting in a 5–50 kHz "chug band"
+where the impulses beat ambient, and scaling injections to unit RMS.
+
+**Measured result:**
+
+| Injected level (× chug-band baseline) | t_q = 15 s | t_q = 35 s |
+|---|---|---|
+| 1× | 17% | 83% |
+| 2× | 92% | 100% |
+| ≥ 4× | 100% | 100% |
+
+- **False triggers: 0/60 random triggers on unmodified ocean, and 0/49 on each of the
+  heaviest biosonar/echosounder slices.** The onset-then-decay-over-local-baseline
+  requirement rejects continuous biosonar (no step-up at a random trigger). Operationally
+  the tail detector fires only *after* a doublet, so real FP is lower still. This is the
+  cleanest of the three limbs and the sharpest hot-vs-cold discriminator.
+
+---
+
+# M0 Calibration — Doppler-Drift Tracker (Discriminants D1/D3)
+
+**What it looks for:** a narrowband tone/PRF line sweeping the CPA S-curve
+f_obs(t) = f0·c/(c+v_r); fits (f0, v, R_cpa, t_c) and reads out **speed** and range.
+Gates: good S-curve fit (residual < 0.2% of f0), significant swing (> 0.3%), physical
+v < 500 kn.
+
+**Measured result** (speed recovered within 25% of truth):
+
+| Tone SNR (28–44 kHz band) | 50 kn | 150 kn | 400 kn |
+|---|---|---|---|
+| 0 dB | 67% | 67% | 0% |
+| +6 dB | 67% | 67% | 67% |
+| +12 dB | 67% | 67% | 67% |
+| +20 dB | 100% | 100% | 67% |
+
+- **False transits: 0/12 slices** — ocean tones (ship lines, whistles) do not fit the
+  monotonic plateau→inflection→plateau S-curve with a physical speed. Cleanest possible
+  FP result; this is the standalone-strongest limb.
+- **Two honest limits:** (i) the 400 kn / 0 dB cell is 0% because a 400 kn transit past
+  R_cpa = 700 m has a ~3 s CPA core — a fast transit is intrinsically brief (the coverage
+  lesson, now on the kinematic side). (ii) The ~67% plateau traces to the 38 kHz
+  echosounder falling inside the 28–44 kHz tracking band on some days; a production run
+  chooses tracking bands around known lines or tracks multiple ridges.
+
+---
+
+# M0 summary — gate status
+
+| Detector | Recovery | False alarms | Standalone? | Role |
+|---|---|---|---|---|
+| Entry-doublet (D2) | 74% quiet / storm-blind @3× | ~1.6 FP/min | **No** | coincidence leg (needs LF + catalog) |
+| Quench-tail (D4) | 92–100% @≥2× | 0/60, 0/49 in storms | Yes (gated on doublet) | hot-vs-cold flag |
+| Doppler tracker (D1/D3) | 67–100% | 0/12 | **Yes** | kinematic core (speed readout) |
+
+**All three M0 detectors PASS the gate (each has a measured sensitivity curve + FP rate).**
+The calibrations turned two design assumptions into measured facts: the entry-doublet HF
+limb is storm-blind and high-FP, so it is only a coincidence leg (M2/M3 mandatory); the
+Doppler tracker and quench-tail are clean enough to carry weight on their own. **M0 complete
+→ proceed to M1 (single-site MARS full-coverage month pilot), treating single-sensor
+doublets as coincidence candidates, not detections.**

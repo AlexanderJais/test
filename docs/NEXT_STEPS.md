@@ -11,17 +11,17 @@ data — same discipline as the PRI miner (floor = 1.5× local threshold, 67–9
 
 ---
 
-## M0 — Build & calibrate the three missing detectors  *(highest priority, ~1 day compute)*
+## M0 — Build & calibrate the three missing detectors  ✅ COMPLETE
 The signature spec's top discriminants need detectors we don't have yet.
 
 - [DONE — see [M0_CALIBRATION.md](M0_CALIBRATION.md)] **D2 Entry-doublet detector** — slam shock + cavity pinch-off collapse pulse separated
   by `t_p` (0.1–0.55 s); matched-filter/cepstral pair-finder, outputs `t_p` → implied
   body size, plus anti-coincidence with airgun (fixed 10–15 s) and echosounder PRIs.
   *Build `src/entry_doublet.py`.*
-- **D4 Quench-tail detector** — after any doublet, test a long window (up to ~1000 s) for
+- [DONE — [M0_CALIBRATION.md](M0_CALIBRATION.md)] **D4 Quench-tail detector** — after any doublet, test a long window (up to ~1000 s) for
   an impulsive high-kurtosis tail with irregular ISI (hot-body flag; cold entries are
   silent after pinch-off). *Extend the transient chain with ISI stats.*
-- **D1/D3 Doppler-drift tracker** — reassigned-spectrogram tracker for tones/PRF combs
+- [DONE — [M0_CALIBRATION.md](M0_CALIBRATION.md)] **D1/D3 Doppler-drift tracker** — reassigned-spectrogram tracker for tones/PRF combs
   chirping 4–300 Hz/s through CPA; require identical fractional Doppler across all lines.
   *Build `src/doppler_track.py`.*
 - **Calibrate all three** with `injection_test.py`-style synthetic injection into real
