@@ -71,6 +71,61 @@ def bp(x, fs, band):
     return signal.sosfiltfilt(sos, x)
 
 
+def read_window_decimated(paths, w0, w1, target_fs=2000):
+    """Memory-safe read: stream file chunks, decimate to target_fs for the
+    LF analysis; also return per-chunk broadband transient events."""
+    lf_parts, bb_events, fs_native = [], [], None
+    t_abs0 = None
+    for path in sorted(paths):
+        f0 = fname_start(path)
+        info = sf.info(path)
+        fs = info.samplerate
+        fs_native = fs
+        f1 = f0 + datetime.timedelta(seconds=info.frames / fs)
+        a, b = max(w0, f0), min(w1, f1)
+        if a >= b:
+            continue
+        if t_abs0 is None:
+            t_abs0 = a
+        dec = max(1, int(round(fs / target_fs)))
+        i0 = int((a - f0).total_seconds() * fs)
+        n_total = int((b - a).total_seconds() * fs)
+        chunk = 10 * 60 * fs                      # 10-min chunks
+        with sf.SoundFile(path) as fh:
+            fh.seek(i0)
+            done = 0
+            while done < n_total:
+                x = fh.read(min(chunk, n_total - done), dtype="float64",
+                            always_2d=False)
+                if len(x) == 0:
+                    break
+                if x.ndim > 1:
+                    x = x[:, 0]
+                # LF: anti-alias + decimate
+                lf_parts.append(signal.decimate(x, dec, ftype="fir",
+                                                zero_phase=True))
+                # broadband transient scan within the chunk
+                xb = bp(x, fs, BB_BAND)
+                env = np.abs(signal.hilbert(xb))
+                med = np.median(env)
+                mad = np.median(np.abs(env - med)) + 1e-30
+                pk, props = signal.find_peaks(env, height=med + MAD_K * mad,
+                                              distance=int(0.5 * fs))
+                tc0 = a + datetime.timedelta(seconds=done / fs)
+                for i, h in sorted(zip(pk, props["peak_heights"]),
+                                   key=lambda z: -z[1])[:4]:
+                    bb_events.append({
+                        "band": "broadband",
+                        "utc": (tc0 + datetime.timedelta(
+                            seconds=float(i / fs))).isoformat(),
+                        "snr": round(float(h / (med + MAD_K * mad)), 2)})
+                done += len(x)
+                del x, xb, env
+    if not lf_parts:
+        return None
+    return t_abs0, np.concatenate(lf_parts), target_fs, bb_events, fs_native
+
+
 def scan_station(code, paths, window_min):
     st = STATIONS[code]
     rng = hav_km(EVENT_LAT, EVENT_LON, st["lat"], st["lon"])
@@ -81,61 +136,41 @@ def scan_station(code, paths, window_min):
            "predicted_arrival_utc": t_arr.isoformat(),
            "window": [w0.isoformat(), w1.isoformat()],
            "events": [], "files": []}
-    segs = []
-    for path in paths:
-        f0 = fname_start(path)
-        info = sf.info(path)
-        fs = info.samplerate
-        f1 = f0 + datetime.timedelta(seconds=info.frames / fs)
-        a, b = max(w0, f0), min(w1, f1)
-        if a >= b:
-            continue
-        i0 = int((a - f0).total_seconds() * fs)
-        n = int((b - a).total_seconds() * fs)
-        with sf.SoundFile(path) as fh:
-            fh.seek(i0)
-            x = fh.read(n, dtype="float64", always_2d=False)
-        if x.ndim > 1:
-            x = x[:, 0]
-        segs.append((a, x, fs))
-        out["files"].append(os.path.basename(path))
-    if not segs:
+    rw = read_window_decimated(paths, w0, w1)
+    if rw is None:
         out["status"] = "no coverage"
         return out, None
-    segs.sort(key=lambda s: s[0])
-    fs = segs[0][2]
-    t_abs0 = segs[0][0]
-    x = np.concatenate([s[1] for s in segs])
-    out["fs"] = fs
-    out["coverage_s"] = round(len(x) / fs, 1)
+    t_abs0, xlf, fsd, bb_events, fs_native = rw
+    out["files"] = [os.path.basename(p) for p in paths]
+    out["fs"] = fs_native
+    out["coverage_s"] = round(len(xlf) / fsd, 1)
 
-    # noise floor + transient scan per band
-    for bname, band in (("thump", THUMP_BAND), ("broadband", BB_BAND)):
-        xb = bp(x, fs, band)
-        env = np.abs(signal.hilbert(xb))
-        med = np.median(env)
-        mad = np.median(np.abs(env - med)) + 1e-30
-        thr = med + MAD_K * mad
-        pk, props = signal.find_peaks(env, height=thr,
-                                      distance=int(0.5 * fs))
-        rms = np.sqrt(np.mean(xb ** 2))
-        out[f"{bname}_rms"] = float(rms)
-        out[f"{bname}_thr"] = float(thr)
-        for i, h in sorted(zip(pk, props["peak_heights"]),
-                           key=lambda z: -z[1])[:12]:
-            tt = t_abs0 + datetime.timedelta(seconds=float(i / fs))
-            # duration at -20 dB
-            a0, b0 = max(0, i - fs), min(len(env), i + fs)
-            e = env[a0:b0]
-            above = e > 0.1 * h
-            dur = float(np.sum(above)) / fs
-            out["events"].append({
-                "band": bname, "utc": tt.isoformat(),
-                "snr": round(float(h / thr), 2),
-                "dur_s": round(dur, 3),
-                "dt_from_pred_s": round((tt - t_arr).total_seconds(), 1)})
+    # LF thump scan on the decimated stream
+    xb = bp(xlf, fsd, THUMP_BAND)
+    env = np.abs(signal.hilbert(xb))
+    med = np.median(env)
+    mad = np.median(np.abs(env - med)) + 1e-30
+    thr = med + MAD_K * mad
+    pk, props = signal.find_peaks(env, height=thr, distance=int(0.5 * fsd))
+    out["thump_rms"] = float(np.sqrt(np.mean(xb ** 2)))
+    out["thump_thr"] = float(thr)
+    for i, h in sorted(zip(pk, props["peak_heights"]),
+                       key=lambda z: -z[1])[:12]:
+        tt = t_abs0 + datetime.timedelta(seconds=float(i / fsd))
+        a0, b0 = max(0, i - fsd), min(len(env), i + fsd)
+        e = env[a0:b0]
+        dur = float(np.sum(e > 0.1 * h)) / fsd
+        out["events"].append({
+            "band": "thump", "utc": tt.isoformat(),
+            "snr": round(float(h / thr), 2), "dur_s": round(dur, 3),
+            "dt_from_pred_s": round((tt - t_arr).total_seconds(), 1)})
+    # broadband events from chunked scan (annotate offset from prediction)
+    for e in bb_events:
+        e["dt_from_pred_s"] = round((datetime.datetime.fromisoformat(
+            e["utc"]) - t_arr).total_seconds(), 1)
+    out["events"] += sorted(bb_events, key=lambda e: -e["snr"])[:12]
     out["status"] = "ok"
-    return out, (t_abs0, x, fs)
+    return out, (t_abs0, xlf, fsd)
 
 
 def main():
@@ -188,10 +223,7 @@ def main():
     fig, axes = plt.subplots(len(waves), 1, figsize=(14, 3.2 * len(waves)),
                              sharex=False)
     for ax, (code, (t0, x, fs)) in zip(np.atleast_1d(axes), waves.items()):
-        dec = max(1, fs // 4000)
-        xd = signal.decimate(x, dec, ftype="fir", zero_phase=True)
-        fsd = fs / dec
-        f, t, sxx = signal.spectrogram(xd, fs=fsd, nperseg=4096,
+        f, t, sxx = signal.spectrogram(x, fs=fs, nperseg=4096,
                                        noverlap=2048)
         db = 10 * np.log10(np.maximum(sxx, 1e-30))
         m = ax.pcolormesh(t / 60, f, db, cmap="magma", shading="auto",
@@ -203,7 +235,7 @@ def main():
                   - t0).total_seconds() / 60
         ax.axvline(t_pred, color="cyan", ls="--", lw=1.2)
         ax.set_yscale("log")
-        ax.set_ylim(8, 2000)
+        ax.set_ylim(8, 990)
         ax.set_ylabel(f"{code}\nHz")
         ax.set_title(f"{code} — window start {t0.isoformat()}Z; cyan = "
                      f"predicted arrival for reported event time", fontsize=9)
