@@ -1,0 +1,1538 @@
+[
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.05,
+  "alpha": 0.0,
+  "false_pos": 5,
+  "false_pos_A": 5,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.05,
+  "alpha": 1.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.05,
+  "alpha": 1.5,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.05,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.05,
+  "alpha": 3.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.05,
+  "alpha": 5.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.15,
+  "alpha": 1.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.15,
+  "alpha": 1.5,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.15,
+  "alpha": 2.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.15,
+  "alpha": 3.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.15,
+  "alpha": 5.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.5,
+  "alpha": 1.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.5,
+  "alpha": 1.5,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.5,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.5,
+  "alpha": 3.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220101_000507",
+  "a_m": 0.5,
+  "alpha": 5.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 53
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.05,
+  "alpha": 0.0,
+  "false_pos": 1,
+  "false_pos_A": 0,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.05,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.05,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.05,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.05,
+  "alpha": 3.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.05,
+  "alpha": 5.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.15,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.15,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.15,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.15,
+  "alpha": 3.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.15,
+  "alpha": 5.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.5,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.5,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.5,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.5,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220214_090758",
+  "a_m": 0.5,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 86
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.05,
+  "alpha": 0.0,
+  "false_pos": 0,
+  "false_pos_A": 0,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.05,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.05,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.05,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.05,
+  "alpha": 3.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.05,
+  "alpha": 5.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.15,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.15,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.15,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.15,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.15,
+  "alpha": 5.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.5,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.5,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.5,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.5,
+  "alpha": 3.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220315_120334",
+  "a_m": 0.5,
+  "alpha": 5.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 234
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.05,
+  "alpha": 0.0,
+  "false_pos": 3,
+  "false_pos_A": 2,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.05,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.05,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.05,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.05,
+  "alpha": 3.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.05,
+  "alpha": 5.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.15,
+  "alpha": 1.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.15,
+  "alpha": 1.5,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.15,
+  "alpha": 2.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.15,
+  "alpha": 3.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.15,
+  "alpha": 5.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.5,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.5,
+  "alpha": 1.5,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.5,
+  "alpha": 2.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.5,
+  "alpha": 3.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220404_150119",
+  "a_m": 0.5,
+  "alpha": 5.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 81
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.05,
+  "alpha": 0.0,
+  "false_pos": 0,
+  "false_pos_A": 0,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.05,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.05,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.05,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.05,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.05,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.15,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.15,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.15,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.15,
+  "alpha": 3.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.15,
+  "alpha": 5.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.5,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.5,
+  "alpha": 1.5,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.5,
+  "alpha": 2.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.5,
+  "alpha": 3.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220510_060641",
+  "a_m": 0.5,
+  "alpha": 5.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 13
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.05,
+  "alpha": 0.0,
+  "false_pos": 1,
+  "false_pos_A": 1,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.05,
+  "alpha": 1.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.05,
+  "alpha": 1.5,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.05,
+  "alpha": 2.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.05,
+  "alpha": 3.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.05,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.15,
+  "alpha": 1.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.15,
+  "alpha": 1.5,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.15,
+  "alpha": 2.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.15,
+  "alpha": 3.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.15,
+  "alpha": 5.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.5,
+  "alpha": 1.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.5,
+  "alpha": 1.5,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.5,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.5,
+  "alpha": 3.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220616_000151",
+  "a_m": 0.5,
+  "alpha": 5.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 39
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.05,
+  "alpha": 0.0,
+  "false_pos": 4,
+  "false_pos_A": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.05,
+  "alpha": 1.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.05,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.05,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.05,
+  "alpha": 3.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.05,
+  "alpha": 5.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.15,
+  "alpha": 1.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.15,
+  "alpha": 1.5,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.15,
+  "alpha": 2.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.15,
+  "alpha": 3.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.15,
+  "alpha": 5.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.5,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.5,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.5,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.5,
+  "alpha": 3.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220720_180029",
+  "a_m": 0.5,
+  "alpha": 5.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 78
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.05,
+  "alpha": 0.0,
+  "false_pos": 5,
+  "false_pos_A": 1,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.05,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.05,
+  "alpha": 1.5,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.05,
+  "alpha": 2.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.05,
+  "alpha": 3.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.05,
+  "alpha": 5.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.15,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.15,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.15,
+  "alpha": 2.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.15,
+  "alpha": 3.0,
+  "recovered": 2,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.15,
+  "alpha": 5.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.5,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.5,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.5,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.5,
+  "alpha": 3.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220808_120016",
+  "a_m": 0.5,
+  "alpha": 5.0,
+  "recovered": 3,
+  "injected": 3,
+  "n_imp": 50
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.05,
+  "alpha": 0.0,
+  "false_pos": 0,
+  "false_pos_A": 0,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.05,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.05,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.05,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.05,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.05,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.15,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.15,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.15,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.15,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.15,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.5,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.5,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.5,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.5,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20220905_030016",
+  "a_m": 0.5,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 1590
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.05,
+  "alpha": 0.0,
+  "false_pos": 0,
+  "false_pos_A": 0,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.05,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.05,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.05,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.05,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.05,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.15,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.15,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.15,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.15,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.15,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.5,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.5,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.5,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.5,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221010_060114",
+  "a_m": 0.5,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 303
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.05,
+  "alpha": 0.0,
+  "false_pos": 0,
+  "false_pos_A": 0,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.05,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.05,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.05,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.05,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.05,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.15,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.15,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.15,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.15,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.15,
+  "alpha": 5.0,
+  "recovered": 1,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.5,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.5,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.5,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.5,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221125_210455",
+  "a_m": 0.5,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 350
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.05,
+  "alpha": 0.0,
+  "false_pos": 0,
+  "false_pos_A": 0,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.05,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.05,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.05,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.05,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.05,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.15,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.15,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.15,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.15,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.15,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.5,
+  "alpha": 1.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.5,
+  "alpha": 1.5,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.5,
+  "alpha": 2.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.5,
+  "alpha": 3.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ },
+ {
+  "slice": "MARS_20221220_210208",
+  "a_m": 0.5,
+  "alpha": 5.0,
+  "recovered": 0,
+  "injected": 3,
+  "n_imp": 264
+ }
+]

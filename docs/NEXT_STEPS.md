@@ -14,7 +14,7 @@ data — same discipline as the PRI miner (floor = 1.5× local threshold, 67–9
 ## M0 — Build & calibrate the three missing detectors  *(highest priority, ~1 day compute)*
 The signature spec's top discriminants need detectors we don't have yet.
 
-- **D2 Entry-doublet detector** — slam shock + cavity pinch-off collapse pulse separated
+- [DONE — see [M0_CALIBRATION.md](M0_CALIBRATION.md)] **D2 Entry-doublet detector** — slam shock + cavity pinch-off collapse pulse separated
   by `t_p` (0.1–0.55 s); matched-filter/cepstral pair-finder, outputs `t_p` → implied
   body size, plus anti-coincidence with airgun (fixed 10–15 s) and echosounder PRIs.
   *Build `src/entry_doublet.py`.*
