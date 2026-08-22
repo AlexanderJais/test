@@ -1,0 +1,219 @@
+#!/usr/bin/env python3
+"""Event-directed forensics: USS Omaha 'splash' incident.
+
+Documented event: 2019-07-15 ~23:00 PDT = 2019-07-16 ~06:00 UTC at
+32.4894 N, 119.3647 W (Pentagon-confirmed video; spherical ~2 m object
+descends to the sea surface; 'splash' called; submarine search found
+nothing). Three SanctSound Channel Islands stations were recording:
+
+  CI01 34.0438 -120.0811  18 m   range 185 km  travel ~124 s
+  CI04 33.849  -120.118  153 m   range 166 km  travel ~112 s
+  CI05 34.0178 -119.3172 136 m   range 170 km  travel ~114 s
+
+Approach (transparent forensic scan, not black-box classification):
+for each station, read the window around the event (+travel time,
++/- generous uncertainty for report time and SoundTrap clock drift),
+scan for impulsive transients in a low-frequency 'entry thump' band
+(10-500 Hz, where a water-entry event carries energy that survives
+~170 km) and broadband, produce spectrograms and a ranked transient
+table, then cross-match stations within a +/-3 min drift-tolerant
+window. Any coincident LF transient gets waveform-level examination
+for slam/pinch doublet structure. A null yields a source-level upper
+bound at the event position.
+
+Usage: python3 src/omaha_event.py [--window-min 90]
+"""
+
+import argparse
+import datetime
+import glob
+import json
+import os
+import re
+
+import numpy as np
+import soundfile as sf
+from scipy import signal
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+EVENT_UTC = datetime.datetime(2019, 7, 16, 6, 0, 0)
+EVENT_LAT, EVENT_LON = 32.4894, -119.3647
+C_KM_S = 1.487
+STATIONS = {
+    "CI01": {"lat": 34.0438, "lon": -120.0811, "depth": 18},
+    "CI04": {"lat": 33.849, "lon": -120.118, "depth": 153},
+    "CI05": {"lat": 34.0178, "lon": -119.3172, "depth": 136},
+}
+THUMP_BAND = (10.0, 500.0)
+BB_BAND = (300.0, 22000.0)
+MAD_K = 7.0
+
+
+def hav_km(lat1, lon1, lat2, lon2):
+    p1, p2 = np.radians(lat1), np.radians(lat2)
+    dp, dl = p2 - p1, np.radians(lon2 - lon1)
+    a = np.sin(dp/2)**2 + np.cos(p1)*np.cos(p2)*np.sin(dl/2)**2
+    return 2*6371*np.arcsin(np.sqrt(a))
+
+
+def fname_start(path):
+    m = re.search(r"_(\d{6})(\d{6})\.flac$", path)
+    return datetime.datetime.strptime(m.group(1)+m.group(2), "%y%m%d%H%M%S")
+
+
+def bp(x, fs, band):
+    ny = fs / 2
+    hi = min(band[1], ny * 0.95)
+    sos = signal.butter(4, (band[0], hi), btype="bandpass", fs=fs,
+                        output="sos")
+    return signal.sosfiltfilt(sos, x)
+
+
+def scan_station(code, paths, window_min):
+    st = STATIONS[code]
+    rng = hav_km(EVENT_LAT, EVENT_LON, st["lat"], st["lon"])
+    t_arr = EVENT_UTC + datetime.timedelta(seconds=rng / C_KM_S)
+    w0 = t_arr - datetime.timedelta(minutes=window_min)
+    w1 = t_arr + datetime.timedelta(minutes=window_min)
+    out = {"station": code, "range_km": round(float(rng), 1),
+           "predicted_arrival_utc": t_arr.isoformat(),
+           "window": [w0.isoformat(), w1.isoformat()],
+           "events": [], "files": []}
+    segs = []
+    for path in paths:
+        f0 = fname_start(path)
+        info = sf.info(path)
+        fs = info.samplerate
+        f1 = f0 + datetime.timedelta(seconds=info.frames / fs)
+        a, b = max(w0, f0), min(w1, f1)
+        if a >= b:
+            continue
+        i0 = int((a - f0).total_seconds() * fs)
+        n = int((b - a).total_seconds() * fs)
+        with sf.SoundFile(path) as fh:
+            fh.seek(i0)
+            x = fh.read(n, dtype="float64", always_2d=False)
+        if x.ndim > 1:
+            x = x[:, 0]
+        segs.append((a, x, fs))
+        out["files"].append(os.path.basename(path))
+    if not segs:
+        out["status"] = "no coverage"
+        return out, None
+    segs.sort(key=lambda s: s[0])
+    fs = segs[0][2]
+    t_abs0 = segs[0][0]
+    x = np.concatenate([s[1] for s in segs])
+    out["fs"] = fs
+    out["coverage_s"] = round(len(x) / fs, 1)
+
+    # noise floor + transient scan per band
+    for bname, band in (("thump", THUMP_BAND), ("broadband", BB_BAND)):
+        xb = bp(x, fs, band)
+        env = np.abs(signal.hilbert(xb))
+        med = np.median(env)
+        mad = np.median(np.abs(env - med)) + 1e-30
+        thr = med + MAD_K * mad
+        pk, props = signal.find_peaks(env, height=thr,
+                                      distance=int(0.5 * fs))
+        rms = np.sqrt(np.mean(xb ** 2))
+        out[f"{bname}_rms"] = float(rms)
+        out[f"{bname}_thr"] = float(thr)
+        for i, h in sorted(zip(pk, props["peak_heights"]),
+                           key=lambda z: -z[1])[:12]:
+            tt = t_abs0 + datetime.timedelta(seconds=float(i / fs))
+            # duration at -20 dB
+            a0, b0 = max(0, i - fs), min(len(env), i + fs)
+            e = env[a0:b0]
+            above = e > 0.1 * h
+            dur = float(np.sum(above)) / fs
+            out["events"].append({
+                "band": bname, "utc": tt.isoformat(),
+                "snr": round(float(h / thr), 2),
+                "dur_s": round(dur, 3),
+                "dt_from_pred_s": round((tt - t_arr).total_seconds(), 1)})
+    out["status"] = "ok"
+    return out, (t_abs0, x, fs)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--window-min", type=int, default=90)
+    ap.add_argument("--datadir", default="data/omaha")
+    args = ap.parse_args()
+
+    results, waves = [], {}
+    for code in STATIONS:
+        paths = sorted(glob.glob(os.path.join(
+            args.datadir, f"*{code}*.flac")))
+        if not paths:
+            results.append({"station": code, "status": "no files"})
+            continue
+        r, w = scan_station(code, paths, args.window_min)
+        results.append(r)
+        if w:
+            waves[code] = w
+        print(f"{code}: {r['status']} range={r.get('range_km')}km "
+              f"cover={r.get('coverage_s')}s "
+              f"events={len(r.get('events', []))}")
+
+    # cross-station coincidence: LF thump events within +/-180 s
+    coinc = []
+    evs = [(r["station"], e) for r in results for e in r.get("events", [])
+           if e["band"] == "thump"]
+    for i in range(len(evs)):
+        for j in range(i + 1, len(evs)):
+            si, ei = evs[i]
+            sj, ej = evs[j]
+            if si == sj:
+                continue
+            dt = abs((datetime.datetime.fromisoformat(ei["utc"])
+                      - datetime.datetime.fromisoformat(ej["utc"]))
+                     .total_seconds())
+            if dt <= 180:
+                coinc.append({"a": si, "b": sj, "utc_a": ei["utc"],
+                              "utc_b": ej["utc"], "dt_s": round(dt, 1),
+                              "snr_a": ei["snr"], "snr_b": ej["snr"]})
+    print(f"cross-station thump coincidences (+/-180 s): {len(coinc)}")
+
+    os.makedirs("results", exist_ok=True)
+    json.dump({"event_utc": EVENT_UTC.isoformat(),
+               "event_pos": [EVENT_LAT, EVENT_LON],
+               "stations": results, "coincidences": coinc},
+              open("results/omaha_event.json", "w"), indent=1)
+
+    # spectrogram figure: LF band per station around predicted arrival
+    fig, axes = plt.subplots(len(waves), 1, figsize=(14, 3.2 * len(waves)),
+                             sharex=False)
+    for ax, (code, (t0, x, fs)) in zip(np.atleast_1d(axes), waves.items()):
+        dec = max(1, fs // 4000)
+        xd = signal.decimate(x, dec, ftype="fir", zero_phase=True)
+        fsd = fs / dec
+        f, t, sxx = signal.spectrogram(xd, fs=fsd, nperseg=4096,
+                                       noverlap=2048)
+        db = 10 * np.log10(np.maximum(sxx, 1e-30))
+        m = ax.pcolormesh(t / 60, f, db, cmap="magma", shading="auto",
+                          vmin=np.percentile(db, 30),
+                          vmax=np.percentile(db, 99.5), rasterized=True)
+        st = STATIONS[code]
+        rngkm = hav_km(EVENT_LAT, EVENT_LON, st["lat"], st["lon"])
+        t_pred = (EVENT_UTC + datetime.timedelta(seconds=rngkm / C_KM_S)
+                  - t0).total_seconds() / 60
+        ax.axvline(t_pred, color="cyan", ls="--", lw=1.2)
+        ax.set_yscale("log")
+        ax.set_ylim(8, 2000)
+        ax.set_ylabel(f"{code}\nHz")
+        ax.set_title(f"{code} — window start {t0.isoformat()}Z; cyan = "
+                     f"predicted arrival for reported event time", fontsize=9)
+    np.atleast_1d(axes)[-1].set_xlabel("minutes into window")
+    fig.suptitle("USS Omaha event window — SanctSound Channel Islands, "
+                 "8 Hz–2 kHz", fontsize=12)
+    fig.tight_layout()
+    fig.savefig("figures/fig_omaha_event.png", dpi=140)
+    print("wrote figures/fig_omaha_event.png and results/omaha_event.json")
+
+
+if __name__ == "__main__":
+    main()
