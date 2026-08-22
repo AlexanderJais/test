@@ -4,6 +4,8 @@ An evidence-based investigation of whether electron plasma (Langmuir)
 oscillations can be identified and located in publicly available underwater
 microphone (hydrophone) data.
 
+**Signature definition & search design: [docs/SIGNATURE_SPEC.md](docs/SIGNATURE_SPEC.md) + [docs/SEARCH_PLAN.md](docs/SEARCH_PLAN.md)** — the exact acoustic signature of a transmedium plasma-sheath craft (event-sequence model, 10 ranked discriminants, kill criteria) and the concrete search pattern (7 ranked sites, time-resolution math, detector map, coincidence catalogs, compute budget).
+
 **Read the findings: [REPORT.md](REPORT.md)** (part 1 — can plasma oscillations appear in hydrophone data?)
 and **[PLASMA_CRAFT_REPORT.md](PLASMA_CRAFT_REPORT.md)** (part 2 — can public hydrophone *arrays* find and
 locate a plasma-propelled underwater craft? Includes a TDOA localization pipeline validated to 25 km

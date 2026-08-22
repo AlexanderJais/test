@@ -12,6 +12,8 @@
 
 ---
 
+> **Successor documents:** the signature model below was superseded by a much deeper four-lens analysis — see [docs/SIGNATURE_SPEC.md](docs/SIGNATURE_SPEC.md) (full transmedium event-sequence model, ranked discriminants, kill criteria) and [docs/SEARCH_PLAN.md](docs/SEARCH_PLAN.md) (site ranking, time-resolution design, detector map, compute).
+
 ## 1. Signature model: what would plasma propulsion sound like?
 
 | Concept | Real-world anchor | Acoustic observables |
