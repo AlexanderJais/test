@@ -42,7 +42,7 @@ def process(args):
             try: p = _decode(robust_range(url, a, a+wb-1))
             except Exception: continue
             for band in BANDS:
-                t, f, snr = dp.track_ridge(p, fs, band)
+                t, f, snr, _ton = dp.track_ridge(p, fs, band)
                 fit = dp.fit_scurve(t, f, snr) if len(t) else None
                 if fit:
                     swing = (f.max()-f.min())/fit["f0"]

@@ -52,6 +52,8 @@ Cross-match candidate timestamps against public catalogs to kill mimics / suppor
 - *Build `src/coincidence.py`* (timestamp → catalog lookups, ±window).
 
 ## M4 — Proximity sites for the report-region search
+
+*(Event-directed pilot done: see [OMAHA_EVENT.md](OMAHA_EVENT.md) — SanctSound CI01/04/05 fetched and searched for the 2019 USS Omaha incident; no TDOA-consistent event at the reported position, 167–185 km range.)*
 - **SanctSound Channel Islands CI01–CI05** fetcher (NCEI/AWS) — search the 2004 Nimitz /
   2019 Omaha-Russell region directly. *Build `src/fetch_sanctsound.py`.*
 - Add ONC 512 kHz (above-Nyquist confirmation tier) and Orcasound (near-surface boom/

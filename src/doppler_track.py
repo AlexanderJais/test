@@ -39,28 +39,57 @@ def scurve(t, f0, v, r_cpa, t_c):
     return f0 * C_WATER / (C_WATER + v_r)
 
 
-def track_ridge(p, fs, band, min_prom_db=6.0):
-    """Per-frame narrowband peak in `band` -> (t, f, snr) ridge points."""
+def track_ridge(p, fs, band, min_prom_db=8.0, max_jump_hz=400.0):
+    """Continuity-constrained narrowband ridge in `band`.
+
+    A real transiting tone is a SINGLE continuous, prominent ridge. Taking
+    the per-frame global argmax (old behaviour) tracks broadband noise when
+    no tone is present -- huge apparent swing, garbage fit. Instead: seed at
+    the most prominent frame, then grow forward/back frame-to-frame within
+    max_jump_hz, keeping only frames whose local peak clears min_prom_db.
+    Returns (t, f, snr) for the tracked ridge plus a tonality score = the
+    fraction of the band's time frames that the ridge actually spans."""
     f, t, sxx = signal.spectrogram(p, fs=fs, window="hann", nperseg=NPERSEG,
                                    noverlap=NPERSEG // 2)
     sel = (f >= band[0]) & (f <= band[1])
     fb, S = f[sel], sxx[sel, :]
+    dbf = 10 * np.log10(S + 1e-30)
+    base = np.median(dbf, axis=0)                    # per-frame noise floor
+    prom = dbf - base                                # prominence map
+    nfr = dbf.shape[1]
+    df = fb[1] - fb[0]
+    jump = max(1, int(round(max_jump_hz / df)))
+    # seed at the single most prominent (frame, bin)
+    seed_bin, seed_fr = np.unravel_index(np.argmax(prom), prom.shape)
+    if prom[seed_bin, seed_fr] < min_prom_db:
+        return np.array([]), np.array([]), np.array([]), 0.0
+    ridge = {seed_fr: seed_bin}
+
+    def grow(step):
+        cur = seed_bin
+        k = seed_fr + step
+        while 0 <= k < nfr:
+            lo, hi = max(0, cur - jump), min(len(fb), cur + jump + 1)
+            j = lo + int(np.argmax(prom[lo:hi, k]))
+            if prom[j, k] < min_prom_db:
+                break                                # ridge ended
+            ridge[k] = j
+            cur = k = k
+            cur = j
+            k += step
+    grow(+1); grow(-1)
+    ks = sorted(ridge)
     tt, ff, ss = [], [], []
-    for k in range(S.shape[1]):
-        col = 10 * np.log10(S[:, k] + 1e-30)
-        base = np.median(col)
-        i = int(np.argmax(col))
-        if col[i] - base >= min_prom_db:
-            # parabolic sub-bin refinement
-            if 0 < i < len(col) - 1:
-                d = col[i - 1] - 2 * col[i] + col[i + 1]
-                off = 0.5 * (col[i - 1] - col[i + 1]) / d if d else 0.0
-            else:
-                off = 0.0
-            df = fb[1] - fb[0]
-            tt.append(t[k]); ff.append(fb[i] + off * df)
-            ss.append(col[i] - base)
-    return np.array(tt), np.array(ff), np.array(ss)
+    for k in ks:
+        j = ridge[k]
+        if 0 < j < len(fb) - 1:
+            d = dbf[j - 1, k] - 2 * dbf[j, k] + dbf[j + 1, k]
+            off = 0.5 * (dbf[j - 1, k] - dbf[j + 1, k]) / d if d else 0.0
+        else:
+            off = 0.0
+        tt.append(t[k]); ff.append(fb[j] + off * df); ss.append(prom[j, k])
+    tonality = len(ks) / nfr
+    return np.array(tt), np.array(ff), np.array(ss), float(tonality)
 
 
 def fit_scurve(t, f, snr):
@@ -87,10 +116,15 @@ def fit_scurve(t, f, snr):
     return best
 
 
-def detect(p, fs, band, min_swing_frac=3e-3, max_resid_frac=2e-3):
+def detect(p, fs, band, min_swing_frac=3e-3, max_resid_frac=2e-3,
+           min_tonality=0.25):
     """Return an S-curve fit if a tone in `band` follows a Doppler transit."""
-    t, f, snr = track_ridge(p, fs, band)
-    fit = fit_scurve(t, f, snr) if len(t) else None
+    t, f, snr, tonality = track_ridge(p, fs, band)
+    # a real transit is a continuous tone spanning much of the window; a
+    # short/broken ridge is noise and is not fit at all
+    if len(t) == 0 or tonality < min_tonality:
+        return None
+    fit = fit_scurve(t, f, snr)
     if not fit:
         return None
     # observed fractional swing and monotonic-through-inflection shape
@@ -100,6 +134,7 @@ def detect(p, fs, band, min_swing_frac=3e-3, max_resid_frac=2e-3):
             and fit["resid_hz"] / fit["f0"] <= max_resid_frac
             and fit["v_ms"] < V_MAX)
     fit.update({"v_kn": round(fit["v_ms"] / KN, 1),
+                "tonality": round(tonality, 3),
                 "swing_frac": round(float(swing), 5),
                 "cpa_slope_hz_s": round(slope_cpa, 2),
                 "n_ridge": int(len(t)),
