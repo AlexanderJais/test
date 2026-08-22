@@ -33,6 +33,7 @@ are actually localized.
 - `src/verify_candidates.py` — graded pulse-physics adjudication of candidates (part 2)
 - `src/injection_test.py` — measures detector sensitivity by signal injection (part 2)
 - `src/candidate_triage.py` — cross-day persistence catalog + residual watchlist (part 2)
+- `src/deep_dive.py` — full-coverage (every 10-min file) timeline around a candidate signature (part 2)
 - `figures/` — generated figures used in the report
 - `results/` — per-slice detected-line tables and the feature catalog
 

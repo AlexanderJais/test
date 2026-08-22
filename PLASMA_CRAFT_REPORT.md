@@ -111,6 +111,24 @@ The archive screen went through four documented iterations, each forced by a mea
 ![Injection sensitivity](figures/fig_injection.png)
 ![Candidate triage](figures/fig_triage.png)
 
+### 4b. Full-coverage deep dive: resolving a candidate on 72 h, not 60 s
+
+Every result above rests on the first 60 s of one 10-minute file per day — **~0.07% temporal coverage**. That cannot distinguish a brief transient from a persistent source, and judges a candidate on 60 seconds. `src/deep_dive.py` removes the limit for a chosen window: it streams **every** 10-minute file (144/day = continuous 24 h), windows each into 60 s so memory stays bounded, mines discharge chains in every window within a target band, and assembles a continuous timeline. (Robustness note: the fetch is per-60 s-window with retry/back-off — a single ~460 MB whole-file request truncated under concurrency and broke the worker pool; small retryable requests fixed it.)
+
+**Target: candidate B** (2021-12-28), the most interesting residual — a low-centroid (14–20 kHz), broadband, metronomic chain, and the one day carrying *three* such residuals. Deep dive: **72 h continuous, 2021-12-27 → 29, all 432 ten-minute files** (5 window-level errors), tracking the 12–22 kHz band.
+
+**Result (`figures/fig_deepdive_candB.png`):**
+
+- **Not persistent.** The signature appears in **32 of 432 files (7.4%)**, in short bouts, not hour-after-hour — so it is *not* a fixed installation.
+- **Not a one-time transit.** It **recurs on all three days** (4 / 16 / 12 files) at the same site — so it is *not* a craft passing through once.
+- **No stable pulse-repetition frequency.** Across bouts the repetition rate spans **0.21–19.4 Hz — a >90× range.** A pulsed-power machine (fixed pinger or a plasma-propulsion supply) holds a stable PRF; this does not.
+- **Diel bout structure**, clustering around local night/dawn (PST = UTC−8) — the hallmark of foraging.
+- **Direct look (`figures/fig_deepdive_candB_spectrogram.png`):** the strongest bout (Dec 28 14:05 UTC) is broadband clicks at ~0.6 s inter-click interval **accompanied by 13–20 kHz tonal whistles** — echolocation clicks + social whistles. The stable 50/100 kHz horizontal lines are the known instrument tone from Part 1.
+
+**Verdict: candidate B is an odontocete (dolphin) click-and-whistle bout** — resolved not by a 60 s heuristic but by 72 h of continuous evidence converging from four independent directions (intermittency, multi-day recurrence, PRF instability, concurrent whistles). Notably, the deep dive *could* have shown the alarming pattern — a persistent, stable-rate source — and did not.
+
+**Honest scope limit:** this full-coverage treatment was run on **one** residual signature. A complete search would deep-dive every residual on the watchlist (and, ideally, screen every 10-minute file rather than one per day — ~1,000× the compute done here, entirely tractable, just not run in this session). The deep-dive tool and the persistence/adjudication logic are the reusable machinery for exactly that; what is bounded here is compute, not method.
+
 ## 5. Honest capability assessment
 
 What this demonstrates a **public** array can already do:
