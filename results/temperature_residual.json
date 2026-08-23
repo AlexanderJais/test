@@ -1,0 +1,46 @@
+{
+ "r_global": -0.5551984707536863,
+ "n_null": 2851,
+ "incidents": [
+  {
+   "date": "2019-07-15",
+   "label": "Jul14 (Kidd)",
+   "status": "ok",
+   "raw_pct": 0.1,
+   "temp_change_C": 0.018,
+   "temp_expl_pct": 0.0,
+   "residual_snaps_per_min": 3.3,
+   "p_vs_control": 0.486
+  },
+  {
+   "date": "2019-07-16",
+   "label": "Jul15 (Omaha)",
+   "status": "ok",
+   "raw_pct": 7.8,
+   "temp_change_C": -0.624,
+   "temp_expl_pct": 5.6,
+   "residual_snaps_per_min": 75.3,
+   "p_vs_control": 0.099
+  },
+  {
+   "date": "2019-07-26",
+   "label": "Jul25",
+   "status": "ok",
+   "raw_pct": 2.5,
+   "temp_change_C": 0.137,
+   "temp_expl_pct": 1.6,
+   "residual_snaps_per_min": 45.8,
+   "p_vs_control": 0.183
+  },
+  {
+   "date": "2019-07-31",
+   "label": "Jul30",
+   "status": "ok",
+   "raw_pct": -2.1,
+   "temp_change_C": 0.018,
+   "temp_expl_pct": 0.0,
+   "residual_snaps_per_min": -55.7,
+   "p_vs_control": 0.873
+  }
+ ]
+}
