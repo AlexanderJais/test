@@ -58,3 +58,34 @@ UFO *making noise* near what is now a hydrophone site — is the most on-target
 seed for a passive-acoustic study, even though it predates the sensors. It is
 also a reminder that "UAP + sound" has a long anecdotal record the acoustic
 method could, going forward, actually test.
+
+## The 'times' half — resolved (and why it's nearly empty)
+
+Attempting the sensor∩report *time* intersection ran into two walls:
+1. **NUFORC lock.** Modern geolocated UAP data is essentially all NUFORC-
+   derived, and NUFORC's ToS forbids scraping/redistribution (the one public
+   mirror, `timothyrenner/nuforc_sightings_data`, stores its CSV in a private
+   GCS bucket → 403). We do **not** scrape NUFORC. So the systematic
+   intersection is unavailable through clean data.
+2. **Geography.** The documented 2015+ transmedium cases (USS Omaha sphere
+   2019-07-15; USS Jackson 2023-02) are **Southern California**, not Monterey.
+   MARS — the best *live* sensor — has no documented over-water case to anchor.
+
+Honest ranked candidate list (documented incident × a hydrophone that was
+recording):
+
+| # | Incident | Date | Where | Recording sensor | Dist | Status |
+|---|---|---|---|---|---|---|
+| 1 | USS Omaha sphere→water | 2019-07-15 | off San Diego | SanctSound CI (2018–21) | ~170 km | already analyzed |
+| 2 | USS Jackson video | 2023-02 | SoCal | none (CI retired 2021) | — | no coverage |
+
+**Conclusion:** the best {documented incident × recording public hydrophone}
+overlap in clean data is the July-2019 SoCal case at the Channel Islands
+hydrophones — the exact case analyzed this session. It was not an arbitrary
+choice; it is the closest a documented UAP event and a public hydrophone have
+come in space *and* time in the accessible record.
+
+Clean ways forward: (a) request NUFORC data legitimately (ToS permits email
+request), then run `ufo_spots.py`-style correlation against sensor coverage;
+(b) a forward watch on MARS (live, 256 kHz) for new Monterey-area over-water
+sightings — catch the future rather than mine the locked past.
