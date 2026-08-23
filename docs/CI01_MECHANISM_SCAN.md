@@ -105,3 +105,34 @@ aligned at CI01) nor supports a *regional* physical stimulus — a genuinely
 propagating environmental/acoustic driver would more likely leave a coherent
 trace across the three stations, and it does not. The honest bound: real and
 local to CI01, not corroborated elsewhere.
+
+## Fine-grain onset shape (`src/onset_timing.py`)
+
+Is the CI01 rise a **step** (a discrete trigger at an instant) or a **ramp**
+(a gradual driver)? Measured at 5 s resolution with a *fixed* detection
+threshold from a clean pre-event baseline (so a real rate change is not
+normalised away), over t0 ±50 min. A per-bin adaptive metric is overlaid and
+tracks the fixed one closely — the shape is not a thresholding artifact.
+
+Result: it is a **RAMP, not a step.**
+
+- The rise is a smooth S-curve from ~2660/min to ~3100/min (**+14%** — larger
+  than the earlier ±20 min ±8%, because those windows sat partly on the ramp).
+- **10–90% rise time ≈ 23 min.** Both gradual models beat a pure step
+  decisively (ΔBIC ≈ 135; ramp width 21 min, tanh 22.8 min).
+- The transition is **centered within ~3 min of the event arrival** (CUSUM
+  change-point −0.4 min; tanh midpoint +2.9 min) — the *steepest* part of the
+  rise coincides with t0 — but it begins lifting off baseline a few minutes
+  *before* the nominal acoustic arrival.
+- Context: the rate had been *declining* into the night (bottoming ~20 min
+  before t0), then **reversed** and climbed to a sustained plateau. The
+  reversal-and-climb is the anomaly, not diel drift — CI04/CI05 kept
+  declining.
+
+**Interpretation.** This is **not** the signature of an instantaneous startle
+trigger (that would be a step within seconds). It is a gradual ~20 min
+transition — the shape of a slowly developing driver (a shift in current /
+water mass, or a gradual behavioural onset). The timing cuts both ways and is
+left open: the midpoint sitting essentially at t0 keeps a link to the event
+plausible, while the ramp shape and slight pre-t0 lift-off argue against a
+reaction to the event's *acoustic arrival* specifically.
