@@ -59,3 +59,15 @@ snapping-shrimp chorus (energy in 3–20 kHz) — normal for CI01, not a
 discrete transient. Nothing in this sweep points to a discrete acoustic
 event at the UAP time beyond what the earlier CI01 snap-rate analysis
 already documented.
+
+## Addendum — is the CI05 ship the Nimitz? (propeller ID)
+`figures/fig_ship_demon.png`. The passage peaks at **03:39 UTC** (20:39 local,
+15 Jul), within-3 dB span 03:22–03:56 (~34 min), band level only ~−69 dB.
+DEMON (demodulate the 1.5–6 kHz cavitation band): a single weak envelope line
+at **2.25 Hz** and no blade-rate harmonic comb. 2.25 Hz reads as a propeller
+**shaft rate ≈135 RPM** — a modest, moderately distant **merchant-type**
+vessel in the Santa Barbara Channel shipping lane.
+Not a supercarrier: a Nimitz-class (4 shafts, 5-blade screws, ~260k shp)
+would be far louder with a rich multi-shaft signature. And a single hydrophone
+cannot yield a hull name without AIS or a signature library. Separately, the
+Nimitz "Tic-Tac" is the 2004 San Diego incident, not this 2019 window.
