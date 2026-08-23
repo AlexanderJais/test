@@ -11,3 +11,4 @@ results/omaha_event.json
 data/bolide/
 results/bolide_event.json
 results/case_control.json
+sound/*.wav
