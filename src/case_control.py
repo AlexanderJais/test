@@ -126,14 +126,15 @@ def analyze(code, rows, band_edges):
     def score(r):
         zs = [abs(z(r, k)) for k in feat_keys]
         return sum(v > 3 for v in zs), max(zs)
-    scored = [(r["utc"], r["dt_event_s"], *score(r)) for r in rows]
+    scored = [(r["utc"], float(r["dt_event_s"]), int(score(r)[0]), float(score(r)[1])) for r in rows]
     scored_sorted = sorted(scored, key=lambda s: (-s[2], -s[3]))
     ev_rank = next(i for i, s in enumerate(scored_sorted)
                    if s[0] == ev["utc"])
-    return {"station": code, "n_windows": len(rows), "n_control": len(ctrl),
-            "event_utc": ev["utc"], "event_dt_s": ev["dt_event_s"],
-            "z": zev, "n_bands_over3": score(ev)[0], "max_abs_z": score(ev)[1],
-            "event_rank": ev_rank,
+    return {"station": code, "n_windows": int(len(rows)), "n_control": int(len(ctrl)),
+            "event_utc": ev["utc"], "event_dt_s": float(ev["dt_event_s"]),
+            "z": {k: float(v) for k, v in zev.items()},
+            "n_bands_over3": int(score(ev)[0]), "max_abs_z": float(score(ev)[1]),
+            "event_rank": int(ev_rank),
             "top5_outlier_windows": [
                 {"utc": s[0], "dt_event_s": round(s[1], 0),
                  "n_over3": s[2], "max_z": round(s[3], 1)}
