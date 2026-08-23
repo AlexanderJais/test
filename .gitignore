@@ -12,3 +12,5 @@ data/bolide/
 results/bolide_event.json
 results/case_control.json
 sound/*.wav
+data/omaha/*.snaprate.npz
+data/omaha/*.mat
