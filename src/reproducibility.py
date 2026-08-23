@@ -56,24 +56,42 @@ def snap_series(path):
     return fstart(path), np.array(rs, float)
 
 
-def ratio_null(series_list, half_bins):
+def concat_series(series_list):
+    """Merge per-file (start, rates) into one continuous (t0, rates),
+    inserting NaN for gaps so bins stay time-aligned. Assumes BIN-spaced."""
+    sl = sorted(series_list, key=lambda x: x[0])
+    t0 = sl[0][0]
     out = []
-    for _, rs in series_list:
-        for c in range(half_bins, len(rs)-half_bins):
-            b = rs[c-half_bins:c].mean()
-            if b > 0:
-                out.append(rs[c:c+half_bins].mean()/b)
+    cur = t0
+    for f0, rs in sl:
+        gap = round((f0 - cur).total_seconds() / BIN)
+        if gap > 0:
+            out.extend([np.nan] * gap)
+        out.extend(list(rs))
+        cur = f0 + datetime.timedelta(seconds=len(rs) * BIN)
+    return t0, np.array(out, float)
+
+
+def ratio_null(series_list, half_bins):
+    _, rs = concat_series(series_list)
+    out = []
+    for c in range(half_bins, len(rs)-half_bins):
+        a = rs[c:c+half_bins]; b = rs[c-half_bins:c]
+        if np.isnan(a).any() or np.isnan(b).any() or b.mean() <= 0:
+            continue
+        out.append(a.mean()/b.mean())
     return np.array(out)
 
 
 def event_ratio(series_list, t_arr, half_bins):
-    """after/before ratio centered on the bin containing t_arr."""
-    for f0, rs in series_list:
-        end = f0 + datetime.timedelta(seconds=len(rs)*BIN)
-        if f0 <= t_arr < end:
-            c = int((t_arr-f0).total_seconds()/BIN)
-            if half_bins <= c < len(rs)-half_bins:
-                return rs[c:c+half_bins].mean()/rs[c-half_bins:c].mean()
+    """after/before ratio centered on the bin containing t_arr, on the
+    concatenated continuous series (window may span a file boundary)."""
+    t0, rs = concat_series(series_list)
+    c = int((t_arr - t0).total_seconds() / BIN)
+    if half_bins <= c < len(rs)-half_bins:
+        a = rs[c:c+half_bins]; b = rs[c-half_bins:c]
+        if not (np.isnan(a).any() or np.isnan(b).any()) and b.mean() > 0:
+            return float(a.mean()/b.mean())
     return None
 
 
@@ -108,8 +126,11 @@ def main():
                      f"{er:.3f}, p={p:.3f}" if er else f"{code}: no event coverage",
                      fontsize=10)
         ax.set_ylabel("count"); ax.legend(fontsize=8)
-        print(f"{code} ({res[code]['range_km']}km): event after/before={er:.3f}, "
-              f"p={p:.3f}, null95={res[code]['null_p95']:.3f}")
+        if er:
+            print(f"{code} ({res[code]['range_km']}km): event after/before={er:.3f}, "
+                  f"p={p:.3f}, null95={res[code]['null_p95']:.3f}")
+        else:
+            print(f"{code} ({res[code]['range_km']}km): no valid event window")
     axes[-1].set_xlabel("after/before snap-rate ratio (±20 min)")
     fig.suptitle("Reproducibility: does the CI01 rise replicate across "
                  "independent stations for the SAME event?", fontsize=12)
