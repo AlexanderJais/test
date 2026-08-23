@@ -72,3 +72,36 @@ Two honest possibilities remain, not collapsed into one:
 
 What is ruled out cleanly: the shrimp did **not** snap more because the water
 got acoustically louder.
+
+## Replication at CI04 and CI05 (`src/mechanism_replicate.py`)
+
+The same scan was run at the two other Channel Islands stations (independent
+cables/sites, ~15–30 km away), with a concatenated reader so CI04's event
+window could be scanned across its 6 h file boundary. Result: **the CI01
+signature does not replicate.**
+
+| station | snap-rate step at event | low 20–100 Hz | ship 100–500 Hz |
+|---|---|---|---|
+| CI01 | **+8%** (rise) | −1.4 dB | −1.7 dB |
+| CI04 | **−37%** (fall) | +1.0 dB | +0.6 dB |
+| CI05 | **−24%** (fall) | −1.0 dB | −0.3 dB |
+
+- Neither CI04 nor CI05 shows the snap-rate **rise**. Both snap rates
+  **decline** across the event window — consistent with a normal night-time
+  diel decrease (the event is ~23:00 local). CI01 rose *against* that
+  expectation, which is what made it notable; CI04/CI05 look ordinary.
+- The specific "quiet field / louder shrimp" divergence is absent: at CI04
+  the bands rose *with* a broadband transient while snaps fell; at CI05 the
+  bands and snaps both fell. Each station did its own thing — no coherent
+  cross-station acoustic signature.
+- Both CI04 and CI05 do show a strong broadband / 60 Hz transient near (but
+  not exactly at) the event time; at different clock offsets, most likely
+  local passing vessels rather than a common source.
+
+**What this means for the CI01 claim.** The event-coincident, temperature-
+independent snap-rate rise at CI01 stays a **single-station** observation.
+That neither proves it is noise (it is statistically robust and change-point-
+aligned at CI01) nor supports a *regional* physical stimulus — a genuinely
+propagating environmental/acoustic driver would more likely leave a coherent
+trace across the three stations, and it does not. The honest bound: real and
+local to CI01, not corroborated elsewhere.
