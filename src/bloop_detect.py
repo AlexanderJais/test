@@ -57,13 +57,17 @@ def main():
     d = [analyze(*c) for c in CLIPS]
     b = d[0]
     ipk = int(np.argmax(b["env"]))
-    core = (b["tt"] > b["tt"][ipk] - 8) & (b["tt"] < b["tt"][ipk] + 8) & np.isfinite(b["ridge"])
+    core = (b["tt"] > b["tt"][ipk] - 10) & (b["tt"] < b["tt"][ipk] + 12) & np.isfinite(b["ridge"])
     slope = np.polyfit(b["tt"][core], b["ridge"][core], 1)[0] if core.sum() > 3 else float("nan")
-    print("THE BLOOP — detected & characterized (true units):")
-    print(f"  clip true duration {b['dur']:.0f} s; loudest at t≈{b['tt'][ipk]:.0f} s")
+    print("THE BLOOP — characterized from NOAA's released clip (true units):")
+    print(f"  clip true duration {b['dur']:.0f} s; core event loudest at t≈{b['tt'][ipk]:.0f} s")
     print(f"  energy concentrated ~{np.percentile(b['ridge'],5):.0f}-"
-          f"{np.percentile(b['ridge'],90):.0f} Hz (true) -> infrasonic/low-freq")
-    print(f"  upsweep ridge slope in the core event: {slope:+.2f} Hz/s (rising = upsweep)")
+          f"{np.percentile(b['ridge'],90):.0f} Hz (true) -> low-frequency / infrasonic")
+    print(f"  frequency trend in core: {slope:+.2f} Hz/s -- WEAK & method-dependent; "
+          f"NOT a robust upsweep (that is NOAA's separate 'Upsweep' sound)")
+    print(f"  crest (peak/median envelope): {b['env'][ipk]/np.median(b['env']):.1f}x")
+    print("  NOTE: clip is amplitude-normalized -> absolute source level NOT recoverable;")
+    print("        single channel -> triangulation impossible from this file.")
 
     fig, ax = plt.subplots(2, 1, figsize=(13, 9))
     for a, dd, fmax in [(ax[0], d[0], 120), (ax[1], d[1], 120)]:
@@ -74,7 +78,8 @@ def main():
         a.set_title(f"{dd['label']}  (released clip {dd['speed']}x-sped; axes corrected to true units)")
         a.legend(loc="upper right", fontsize=8)
     ax[1].set_xlabel("TRUE time (s)")
-    fig.suptitle("Detecting 'The Bloop': low-frequency upsweep vs NOAA iceberg-calving reference",
+    fig.suptitle("'The Bloop' (NOAA 1997 clip): a brief low-frequency transient "
+                 "vs NOAA iceberg-calving reference",
                  fontweight="bold")
     fig.tight_layout()
     fig.savefig("figures/fig_bloop.png", dpi=115)
