@@ -1,0 +1,50 @@
+{
+ "CI01": {
+  "range_km": 185.2,
+  "n_min": 359,
+  "click_step": {
+   "observed_abs_change": 219.05000000000018,
+   "signed_change_after_minus_before": 219.05000000000018,
+   "p_empirical": 0.0025,
+   "null_median": 62.40000000000009
+  },
+  "whale_step": {
+   "observed_abs_change": 1.1857104694123421,
+   "signed_change_after_minus_before": -1.1857104694123421,
+   "p_empirical": 0.2845,
+   "null_median": 0.906071473899452
+  }
+ },
+ "CI04": {
+  "range_km": 166.6,
+  "n_min": 718,
+  "click_step": {
+   "observed_abs_change": 19.573684210526316,
+   "signed_change_after_minus_before": -19.573684210526316,
+   "p_empirical": 0.051,
+   "null_median": 4.049999999999999
+  },
+  "whale_step": {
+   "observed_abs_change": 1.1838246582410505,
+   "signed_change_after_minus_before": 1.1838246582410505,
+   "p_empirical": 0.5345,
+   "null_median": 1.2652327933862466
+  }
+ },
+ "CI05": {
+  "range_km": 170.0,
+  "n_min": 359,
+  "click_step": {
+   "observed_abs_change": 236.39999999999998,
+   "signed_change_after_minus_before": -236.39999999999998,
+   "p_empirical": 0.28,
+   "null_median": 155.7
+  },
+  "whale_step": {
+   "observed_abs_change": 0.9859344127619778,
+   "signed_change_after_minus_before": -0.9859344127619778,
+   "p_empirical": 0.7245,
+   "null_median": 1.9112148220992253
+  }
+ }
+}
