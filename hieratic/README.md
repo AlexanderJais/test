@@ -26,7 +26,7 @@ away the lit one — half of every mark, offset from where the mark is.
 the *edges* of each channel and called them the mark. The two traces looked alike because
 they are the same feature lit from two sides.
 
-**3. The channel between the rims** — this version. Rims are detected at both polarities and
+**3. The channel between the rims.** Rims are detected at both polarities and
 then **paired using the light direction**: a pixel belongs to the figure when a shadowed rim
 lies behind it and a lit rim ahead of it along the illumination axis, closer together than
 22 px. Pairing runs over a fan of directions (±45°, 15° steps) so channels of any orientation
@@ -38,14 +38,32 @@ crossing a sunken channel left-to-right you meet the shadowed rim first and the 
 second. On the flat *between* two channels you meet them in the opposite order. Keying on the
 order rejects the gaps and keeps the channels.
 
-Measured against the hand sketches, recall of the sketched area across the three passes:
-**0.23 → 0.40 → 0.64**, with 15/15 marks found and 79 % of detections falling inside a sketch.
+**4. Boundaries respected** — this version. A deep dark stroke is where the surface drops: it
+is the *edge* of the incision, and nothing may be filled across it. Pass 3 ignored that and
+ran its fill straight over the dark strokes, producing blobs. Now:
+
+* **cut edges** are thresholded at the stroke's own scale (σ 3 smoothing first — a
+  pixel-level threshold picks up nothing but screen speckle, because the darkest individual
+  pixels are noise). A dark stroke is kept only where a lit rim lies nearby, which is what
+  separates a cut edge from a stain.
+* **the interior** is the pass-3 channel, but cut at the edges and required to touch one, so
+  a fill can never cross an edge into the neighbouring mark.
+
+Recall of the hand-sketched areas across the four passes: **0.23 → 0.40 → 0.64 → 0.64**, with
+15/15 marks found throughout. Pass 4 does not add area over pass 3 — it puts the same area on
+the right side of the boundaries.
 
 ## What came out
 
-28 figures: 8 strong, 10 moderate, 10 weak. Group **13** is the three-tined antler — three
-tines rising from a curved base, recovered independently and matching the shape identified by
-eye.
+18 figures: 6 strong, 10 moderate, 2 weak.
+
+**Where this stops.** The trace now follows the cut edges faithfully and respects them. It
+does **not** reliably join those edges into the figure a reader sees: at the antler
+(group 12) the edges come out as separate strokes rather than one connected three-tined form.
+Joining them is a gestalt judgement, and at a median 25 × 31 px per mark there is not enough
+in the pixels to make it a measurement. The `cut edges alone` pane of the plate is the most
+neutral artefact for that work — it is what the surface actually shows, with the grouping
+left open.
 
 They sit in a band around the visible limb (`r_norm` mean 0.88, sd 0.08), the camera-facing
 centre of the craft empty. That is where raking light makes relief legible, so it says where
@@ -54,8 +72,7 @@ chart was pasted over it in the only good copy of this photograph.
 
 ## Before comparing against a script
 
-Excluding weak groups, the median figure is about **16 × 20 px** on the source photograph, the
-largest 33 × 41. Part counts, relative angles and topology survive at that scale; fine
+Excluding weak groups, the median figure is about **25 × 31 px** on the source photograph. Part counts, relative angles and topology survive at that scale; fine
 terminal shapes and curvature do not. `engravings.csv` gives `photo_w`/`photo_h` per group.
 
 The hand sketches were used to test *detection* — did we find the mark, and roughly its extent

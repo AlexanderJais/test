@@ -11,14 +11,14 @@ usage:  python3 scripts/validate_user.py [outdir]
 """
 import cv2, numpy as np, os, sys, json, csv
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from engravings import surfaces, detect, ROOT, C_SHADOW, C_LIGHT, FD
+from engravings import surfaces, detect, ROOT, C_BOUND, C_INNER, FD
 OUT = sys.argv[1] if len(sys.argv) > 1 else ROOT
 SRC = os.path.join(ROOT, 'source')
 WHT = (252, 252, 252)
 
 def main():
     clean, enh, egg, valid = surfaces()
-    SD, HL, marks, cl = detect(clean, valid)
+    bound, inner, marks, cl = detect(clean, valid)
     uo = json.load(open(os.path.join(SRC, 'user_outlines.json')))
     canvas = np.zeros(valid.shape, np.uint8)
     for pts in sum(uo.values(), []):
@@ -57,13 +57,11 @@ def main():
             o[sy0-(cy-R):sy1-(cy-R), sx0-(cx-R):sx1-(cx-R)] = im[sy0:sy1, sx0:sx1]
             return o
         ph = cv2.resize(cut(enh), (T, T), interpolation=cv2.INTER_CUBIC)
-        sd = cv2.resize(cut(SD*255), (T, T), interpolation=cv2.INTER_CUBIC) > 110
-        hl = cv2.resize(cut(HL*255), (T, T), interpolation=cv2.INTER_CUBIC) > 110
-        fg = cv2.resize(cut(marks*255), (T, T), interpolation=cv2.INTER_CUBIC) > 110
+        sd = cv2.resize(cut(bound*255), (T, T), interpolation=cv2.INTER_CUBIC) > 110
+        hl = cv2.resize(cut(inner*255), (T, T), interpolation=cv2.INTER_CUBIC) > 110
         ov = ph.copy()
-        ov[hl] = (0.55*ov[hl] + 0.45*np.array(C_LIGHT)).astype(np.uint8)
-        ov[sd] = (0.55*ov[sd] + 0.45*np.array(C_SHADOW)).astype(np.uint8)
-        ov[fg] = (0.25*ov[fg] + 0.75*np.array((70, 210, 120))).astype(np.uint8)
+        ov[hl] = (0.5*ov[hl] + 0.5*np.array(C_INNER)).astype(np.uint8)
+        ov[sd] = (0.15*ov[sd] + 0.85*np.array(C_BOUND)).astype(np.uint8)
         us = ph.copy()
         um = cv2.resize(cut(canvas), (T, T), interpolation=cv2.INTER_NEAREST) > 60
         us[um] = (200, 0, 220)
