@@ -1,87 +1,65 @@
-# "Egg" craft — hieratic numerals mapped onto the hull
+# "Egg" craft — engravings on the hull
 
-Recreation of the annotated image, with the 13 claimed hieratic numerals highlighted
-*on* the ship instead of being listed in a side chart with arrows.
+Two passes over the same two source images:
+
+* **`/` (main)** — the engravings themselves, detected and traced, with no script assumed.
+* **`annotation/`** — a record of what the original annotator claimed (13 hieratic numerals).
+  Kept for reference; the traced shapes do **not** match those glyphs.
 
 | file | what it is |
 |---|---|
-| `01_ship_numerals_highlighted.png` | main panel — same framing as the source annotation, surface enhanced, 13 ringed sites each labelled with its sign and value |
-| `02_site_details.png` | each site zoomed, next to the sign it is claimed to be |
-| `03_context_whole_craft.png` | the whole craft, showing where the 13 sites sit and which region the main panel covers |
-| `positions.csv` | the 13 positions in four coordinate systems + hull-normalised polar coordinates |
-| `analysis_meta.json` | registration transform, hull ellipse, provenance |
-| `scripts/pipeline.py` | reproduces everything from `source/` |
-| `source/` | the two input images |
+| `01_engravings_highlighted.png` | the hull with every detected mark group highlighted in place, colour-coded by confidence |
+| `02_engraving_plate.png` | each group: enhanced photo beside the extracted shape, with its real size on the source photograph |
+| `04_sign_forms.png` | the traced forms alone, normalised to equal height — the sheet to hold against candidate scripts |
+| `03_engravings_facsimile.png` | tracing only, in hull position and scale |
+| `engravings.csv` | per group: confidence, stroke count, position, size, hull-normalised polar coordinates |
+| `scripts/engravings.py` | reproduces all four panels from `source/` |
+| `scripts/pipeline.py` | the annotation pass (arrow tracing, registration, arrow removal, enhancement) |
 
-## What was done
+## How the marks were found
 
-**1. Read the annotation.** The 13 red arrows were located by their heads (morphological
-opening isolates the solid head from the thin shaft). Each shaft was then traced back to
-its origin: the ray from the head collecting the most red pixels within 2.2 px, walked to
-the far end of its contiguous red run. The origin was matched against the numeral chart's
-grid, recovered from the table rules at `x = 42/155/165/277/287/429/439/581` and
-`y = 565 … 1360`.
+The engravings are **dark grooves under raking light**, 4–10 px wide in the enhanced frame.
+The competing signal is the photographed screen's scan-line striping, 1–2 px wide — so the
+separation is done by *scale*, not by contrast:
 
-This matters — a naive step-along-the-ray walk mis-read three of the arrows where they
-cross other arrows. 12 of the 13 traced origins land squarely on a glyph; the exception
-is #2, whose stroke runs over the `10` glyph and stops ~55 px past it on the cell corner
-(`10` is the only sign it touches, and the two neighbouring cells lie in the opposite
-direction from the stroke).
+1. arrows erased, hull enhanced (band-pass σ 2.6/34 + local contrast);
+2. **Hessian ridge filter** (Frangi, dark-line polarity) at σ 2.5 / 3.5 / 4.5 — responds to
+   grooves, largely ignores the thinner striping;
+3. thresholds taken **relative to a local ridge-response floor**, because the striping
+   raises that floor unevenly across the hull. This is what demotes the bottom-left corner,
+   where the striping is worst, to `weak`;
+4. hysteresis → geodesic reconstruction → oriented closing, so each groove emerges as one
+   connected stroke instead of a dashed line;
+5. strokes grouped, each group ranked by its contrast against the local floor
+   (`rel_contrast`): **strong** ≥ 8, **moderate** 5–8, **weak** < 5.
 
-**2. Registered the annotated image to the photo.** The annotated image is *not* a crop of
-the posted screenshot — it is a ~3.9× view of the same photograph from a better source,
-and it carries real detail the screenshot has lost. Silhouette fitting was useless here
-(the visible arc is only part of a very large ellipse, so the fit is under-constrained and
-disagreed with itself by 20°). What worked was multi-scale template matching on the cave
-rock, which has real texture: **scale 0.25889, rotation −2.318°, translation (519.29,
-389.93)**, from 17 correspondences spanning a 1400 px baseline, 1.8 px rms. The annotated
-frame covers photo panel `x 519…920, y 390…892`.
+## What came out
 
-**3. Rebuilt the image.** The red arrows were erased using an unbiased local mean
-(normalised convolution over unmasked pixels) plus high-frequency texture donated from
-26–80 px away, so the repaired strokes keep the surrounding surface grain rather than
-leaving flat bands. The hull was then enhanced with a band-pass (σ 2.6 / 34) and mild
-local contrast, applied strongly inside the hull and gently outside.
+26 mark groups: 10 strong, 13 moderate, 3 weak. They are **not spread over the hull** — they
+sit in a band around the visible limb, with the camera-facing centre of the craft empty.
+That is the signature of relief being legible only where the light rakes across it, so it is
+a lighting artefact of *visibility*, not evidence about where the marks actually are. A large
+patch is also simply unreadable: the annotator's chart was pasted over it, and the underlying
+pixels are gone from this source.
 
-## The 13 readings
+Forms that recur: single curved strokes, pairs and triplets of near-parallel strokes, and a
+few compound figures — `#9` is a clear three-stroke form joined at the base, `#17` is a
+comb-like group of parallel strokes, `#18` a set of parallel diagonals with a connector.
 
-| # | value | # | value | # | value |
-|---|---|---|---|---|---|
-| 1 | 3 | 6 | 3 | 11 | 100 |
-| 2 | 10 | 7 | 5 | 12 | 4 |
-| 3 | 50 | 8 | 900 | 13 | 80 |
-| 4 | 800 | 9 | 10 | | |
-| 5 | 500 | 10 | 70 | | |
+Not everything the detector returns is an engraving. `#6`, `#16` and `#22` are long, smooth,
+featureless bands: they pass the elongation test but read more like a shading edge or a
+surface crease than a cut groove. They are left in rather than quietly dropped — the
+confidence column and the photo panel in `02_engraving_plate.png` are there so each one can
+be judged directly.
 
-Sum 2535. `3` and `10` each appear twice; no thousands are used.
+## Before comparing against a script
 
-## For the position analysis
+These marks are **small**. Excluding the weak group, the median size on the source
+photograph is about 14 × 16 px and the largest is 26 × 48 px. The annotated image resolves them better than the posted
+screenshot because it comes from a better copy of the same photograph, but the underlying
+information is still only tens of pixels per mark. Stroke *counts*, *relative angles* and
+*grouping* are the properties that survive at that scale; fine terminal shapes and
+curvature do not, and should not be used to argue for or against a particular script.
 
-`positions.csv` carries, besides pixel coordinates, hull-normalised polar coordinates
-against the fitted hull ellipse (centre 575.9, 705.2 px; semi-axes 300.3 × 246.8 px;
-54.8°):
-
-* `u_major`, `v_minor` — position along the major / minor axis, in units of the semi-axis
-* `r_norm` — 1.0 is the fitted rim
-* `theta_deg` — angle from the major axis, image y down
-
-Two things are already visible and worth testing properly:
-
-* all 13 sit on the **upper-right quadrant** — the region the annotator zoomed into, so
-  this says more about the annotation than the craft;
-* they lie in a **narrow band near the rim**: `r_norm` mean 0.82, sd 0.10, and ordering
-  them by `theta_deg` walks them around the hull in sequence. Whether that is structure on
-  the hull or just an artefact of marks only being legible at grazing incidence near the
-  limb is the thing to settle next.
-
-## Caveats
-
-* The rings mark the *annotated* positions. The surface there does carry real, repeatable
-  streak-like marks, but at the resolution available most of them do not resolve into
-  anything that unambiguously reads as the claimed sign — `02_site_details.png` puts each
-  one next to its claimed glyph so the resemblance can be judged directly.
-* The glyph images in the labels are cropped from the annotator's own chart, not from the
-  hull.
-* Per-site contrast stretching was deliberately avoided: at this resolution it amplifies
-  the screen half-tone of the photographed display into convincing-looking shapes. A
-  single uniform enhancement is used throughout.
+`engravings.csv` gives `photo_w`/`photo_h` for each group so this can be checked per mark
+rather than taken on trust.
