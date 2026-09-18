@@ -1,0 +1,54 @@
+{
+  "transform_img1_to_photo": {
+    "matrix": [
+      [
+        0.2586781601590856,
+        0.01047098642490007,
+        519.29
+      ],
+      [
+        -0.01047098642490007,
+        0.2586781601590856,
+        389.93
+      ]
+    ],
+    "scale": 0.25889,
+    "rotation_deg": -2.318,
+    "translation": [
+      519.29,
+      389.93
+    ],
+    "residual_rms_px": 1.8,
+    "method": "multi-scale template matching on rock texture, 17 correspondences"
+  },
+  "hull_ellipse_photo_px": {
+    "center": [
+      575.9,
+      705.2
+    ],
+    "semi_major": 300.3,
+    "semi_minor": 246.8,
+    "angle_deg": 54.78
+  },
+  "values": [
+    3,
+    10,
+    50,
+    800,
+    500,
+    3,
+    5,
+    900,
+    10,
+    70,
+    100,
+    4,
+    80
+  ],
+  "sum": 2535,
+  "notes": [
+    "ring radius 58 px in panel-1 frame = 15 px in the source photo",
+    "theta_deg measured from the hull major axis, image y down",
+    "r_norm = 1.0 is the fitted hull rim"
+  ]
+}
