@@ -21,6 +21,7 @@ import cv2, numpy as np, os, sys, math, json, csv
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pipeline import (erase_arrows, hull_ellipse, A, CHART_BOX, fit_text, FD,
                       ROOT, W, H)
+from channel import channel_between
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else ROOT
 SRC = os.path.join(ROOT, 'source')
@@ -51,10 +52,11 @@ def frangi_dark(I, scales=(3.0, 5.0, 7.0, 9.0), beta=0.5):
 
 
 def tier(r):
-    # cuts on rel_contrast, the group's ridge response over the LOCAL response
-    # floor.  Calibrated to the two-channel detector: including the highlight
-    # channel raises the floor, so these sit lower than a shadow-only run would.
-    return 'strong' if r >= 5.0 else ('moderate' if r >= 3.8 else 'weak')
+    # cuts on rel_contrast: the contrast of the figure's RIMS over the local
+    # ridge-response floor.  Calibrated to the observed spread (1.9 - 5.5); the
+    # floor is raised by including the highlight channel, so these sit lower
+    # than a shadow-only run would put them.
+    return 'strong' if r >= 4.3 else ('moderate' if r >= 3.1 else 'weak')
 
 
 def surfaces():
@@ -84,24 +86,39 @@ def surfaces():
 
 CHART_BOX2 = (22, 545, 645, 1428)         # chart footprint, with margin
 LIGHT_AZ = 180.0        # hull shading puts the light to the left (+-20 deg)
+PAIR_AXIS = -5.0        # measured mean shadow->highlight direction, near +x
+SCAN_SPAN, SCAN_STEP = 45, 15    # pair across a fan of directions, not just one
+CHAN_W = 22             # widest rim-to-rim gap counted as one channel, px
+RIM_PCT = 92.0          # percentile of the ridge response that counts as a rim
 C_SHADOW = (70, 70, 255)     # BGR, shadow side
-C_LIGHT = (255, 190, 60)     # BGR, lit side
+C_LIGHT = (255, 190, 60)     # BGR, lit rim
+C_FIG = (36, 36, 42)         # the incised figure, on white
+C_FIG_HI = (70, 210, 120)    # the incised figure, over the photo
 
 
 def detect(clean, valid):
-    """Return the shadow channel, the highlight channel, the merged envelope and
-    the mark groups.  The two channels are kept SEPARATE: merging them by
-    morphology fuses neighbouring strokes and destroys the form."""
+    """Trace the incised FIGURE, not its rims.
+
+    Each mark is a sunken channel whose two raised rims take the light
+    differently: one rim is lit, the other shadowed.  A ridge filter finds the
+    rims - but the engraving is the channel BETWEEN them.  So rims are detected
+    at both polarities and then paired: a pixel belongs to the figure when a
+    shadowed rim lies behind it and a lit rim ahead of it along the illumination
+    axis, closer together than CHAN_W.  Pairing runs over a fan of directions so
+    channels of any orientation are recovered, not only those square to the light.
+
+    Returns (shadow rims, lit rims, figure, groups).
+    """
     g = cv2.cvtColor(clean, cv2.COLOR_BGR2GRAY).astype(np.float32)
     pre = cv2.GaussianBlur(g, (0, 0), 1.8)
     dI = pre - cv2.GaussianBlur(pre, (0, 0), 26)
-    Vd = frangi_dark(dI) * valid           # shadow side of the relief
-    Vb = frangi_dark(-dI) * valid          # lit side - the half a dark-only filter drops
+    Vd = frangi_dark(dI) * valid            # shadowed rim
+    Vb = frangi_dark(-dI) * valid           # lit rim
     V = np.maximum(Vd, Vb)
     w = valid.astype(np.float32)
     vm = V.copy(); vm[valid == 0] = 0
     bg = cv2.GaussianBlur(vm, (0, 0), 55)/(cv2.GaussianBlur(w, (0, 0), 55)+1e-6)
-    rel = V/(bg+1e-6); rel[valid == 0] = 0       # contrast vs the LOCAL response floor
+    rel = V/(bg+1e-6); rel[valid == 0] = 0
     pc = lambda p: np.percentile(V[valid > 0], p)
 
     seed = ((V > pc(99.2)) & (valid > 0)).astype(np.uint8)
@@ -115,49 +132,58 @@ def detect(clean, valid):
                            cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5)))
     env[valid == 0] = 0
     n2, l2, s2, _ = cv2.connectedComponentsWithStats(env, 8)
-    md, mb = Vd > pc(92.0), Vb > pc(92.0)
     keep = np.zeros_like(env)
+    md, mb = Vd > pc(92.0), Vb > pc(92.0)
     for i in range(1, n2):
         m = (l2 == i)
         if s2[i, cv2.CC_STAT_AREA] < 150: continue
         if not (m & md).any() or not (m & mb).any():
-            continue                       # real relief shows BOTH a shadow and a highlight
+            continue                        # relief shows BOTH a lit and a shadowed rim
         keep[m] = 1
-    env = keep
+    gate = cv2.dilate(keep, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (15, 15)))
 
-    def channel(Vx):
-        m = ((Vx > pc(94.0)) & (env > 0)).astype(np.uint8)
+    def rim(Vx):
+        m = ((Vx > pc(RIM_PCT)) & (gate > 0)).astype(np.uint8)
         m = cv2.morphologyEx(m, cv2.MORPH_CLOSE, np.ones((3, 3), np.uint8))
         nn, ll, ss, _ = cv2.connectedComponentsWithStats(m, 8)
         out = np.zeros_like(m)
-        for i in range(1, nn):
-            if ss[i, cv2.CC_STAT_AREA] >= 25: out[ll == i] = 1
+        for k in range(1, nn):
+            if ss[k, cv2.CC_STAT_AREA] >= 25: out[ll == k] = 1
         return out
-    SD, HL = channel(Vd), channel(Vb)
-    marks = ((SD | HL) > 0).astype(np.uint8)
+    SD, HL = rim(Vd), rim(Vb)
 
-    gl = cv2.dilate(env, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (35, 35)))
+    fig = np.zeros_like(SD)
+    for a in range(-SCAN_SPAN, SCAN_SPAN+1, SCAN_STEP):
+        fig |= channel_between(SD, HL, PAIR_AXIS+a, CHAN_W)
+    fig = (fig * valid).astype(np.uint8)
+    fig = cv2.morphologyEx(fig, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
+    nf, lf, sf, _ = cv2.connectedComponentsWithStats(fig, 8)
+    out = np.zeros_like(fig)
+    for k in range(1, nf):
+        if sf[k, cv2.CC_STAT_AREA] >= 60: out[lf == k] = 1
+    fig = out
+
+    gl = cv2.dilate(fig, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (35, 35)))
     cn, clab, _, _ = cv2.connectedComponentsWithStats(gl, 8)
     cl = []
-    for i in range(1, cn):
-        mm = (clab == i) & (marks > 0)
-        if mm.sum() < 220: continue
+    for k in range(1, cn):
+        mm = (clab == k) & (fig > 0)
+        if mm.sum() < 260: continue
         ys, xs = np.nonzero(mm)
-        d, b = mm & (SD > 0), mm & (HL > 0)
-        pol = 'unclear'
-        if d.sum() >= 15 and b.sum() >= 15:
-            yd, xd = np.nonzero(d); yb, xb = np.nonzero(b)
-            ang = math.degrees(math.atan2(yb.mean()-yd.mean(), xb.mean()-xd.mean()))
-            pol = 'raised' if abs((ang-LIGHT_AZ+180) % 360 - 180) < 90 else 'sunken'
-        ev = mm & (V > pc(92.0))
+        nn, _, _, _ = cv2.connectedComponentsWithStats(mm.astype(np.uint8), 8)
+        # confidence = contrast of the RIMS that define this figure, against the
+        # local response floor.  Measured on the rims, not the filled channel,
+        # so it does not shift when the channel geometry changes.
+        near = cv2.dilate(mm.astype(np.uint8), np.ones((11, 11), np.uint8)) > 0
+        ev = near & ((SD > 0) | (HL > 0))
         if not ev.any(): ev = mm
-        cl.append(dict(px=int(mm.sum()), n_strokes=int(len(set(clab[mm].ravel()))),
+        cl.append(dict(px=int(mm.sum()), n_strokes=int(nn-1),
                        x0=int(xs.min()), x1=int(xs.max()), y0=int(ys.min()), y1=int(ys.max()),
-                       cx=float(xs.mean()), cy=float(ys.mean()), relief=pol,
+                       cx=float(xs.mean()), cy=float(ys.mean()), relief='sunken',
                        V=float(V[ev].mean()), rel=float(rel[ev].mean())))
     cl.sort(key=lambda c: -c['rel'])
-    for i, c in enumerate(cl): c['id'] = i+1
-    return SD, HL, env, marks, cl
+    for k, c in enumerate(cl): c['id'] = k+1
+    return SD, HL, fig, cl
 
 
 def plural(n, w):
@@ -166,28 +192,27 @@ def plural(n, w):
 
 def main():
     clean, enh, egg, valid = surfaces()
-    SD, HL, env, strokes, cl = detect(clean, valid)
+    SD, HL, strokes, cl = detect(clean, valid)
     print('%d mark groups, %d stroke px' % (len(cl), int(strokes.sum())))
     ell = hull_ellipse(cv2.imread(os.path.join(SRC, 'post_screenshot.webp'))[116:, 463:])
     (ecx, ecy), (eMA, ema), eang = ell
     x0, y0, x1, y1 = CHART_BOX2
 
-    def two_tone(mask_sd, mask_hl, bg=None, alpha=0.75):
-        """shadow in one colour, lit face in the other - never merged"""
-        out = np.full(mask_sd.shape+(3,), 252, np.uint8) if bg is None else bg.copy()
-        h = mask_hl > 0; d = mask_sd > 0
-        if bg is None:
-            out[h] = (196, 176, 110); out[d] = (40, 40, 46)
-        else:
-            out[h] = (( 1-alpha)*out[h] + alpha*np.array(C_LIGHT)).astype(np.uint8)
-            out[d] = ((1-alpha)*out[d] + alpha*np.array(C_SHADOW)).astype(np.uint8)
+    fig = strokes
+    def rims_on(bg, sd, hl, alpha=0.75):
+        out = bg.copy()
+        h, d = hl > 0, sd > 0
+        out[h] = ((1-alpha)*out[h] + alpha*np.array(C_LIGHT)).astype(np.uint8)
+        out[d] = ((1-alpha)*out[d] + alpha*np.array(C_SHADOW)).astype(np.uint8)
         return out
 
     # ---------- 01 highlighted ----------
-    img = two_tone(SD, HL, enh, 0.72)
-    glow = cv2.GaussianBlur(cv2.dilate(strokes, np.ones((5, 5), np.uint8)).astype(np.float32), (0, 0), 6)[:, :, None]
-    img = np.clip(img.astype(np.float32)*(1-0.18*glow) + 255*0.05*glow, 0, 255).astype(np.uint8)
-    img = two_tone(SD, HL, img, 0.85)
+    img = enh.copy()
+    img = rims_on(img, SD, HL, 0.34)                 # rims kept faint, for reference
+    m = fig > 0
+    img[m] = (0.20*img[m] + 0.80*np.array(C_FIG_HI)).astype(np.uint8)
+    ed = cv2.morphologyEx(fig, cv2.MORPH_GRADIENT, np.ones((3, 3), np.uint8)) > 0
+    img[ed] = (250, 250, 250)
     cv2.rectangle(img, (x0, y0), (x1, y1), (42, 42, 48), -1)
     cv2.rectangle(img, (x0, y0), (x1, y1), (92, 92, 102), 2)
     for t, yy, sz, th in (('SURFACE NOT VISIBLE', (y0+y1)//2-18, 0.78, 2),
@@ -204,22 +229,18 @@ def main():
         fs, tw, tht = fit_text(str(c['id']), 24, 0.55, 1)
         cv2.putText(img, str(c['id']), (bx-tw//2, by+tht//2), FD, fs, WHT, 1, cv2.LINE_AA)
     img[0:118, :] = (img[0:118, :]*0.26).astype(np.uint8)
-    cv2.putText(img, 'ENGRAVINGS ON THE HULL  -  relief traced on both sides', (26, 44), FD, 0.95, WHT, 2, cv2.LINE_AA)
-    cv2.putText(img, '%d mark groups.  Each mark is 3-D: raking light gives it a shadow and a lit face ~4 px apart.  '
-                'Both are traced.' % len(cl), (26, 74), FD, 0.45, (188, 204, 222), 1, cv2.LINE_AA)
+    cv2.putText(img, 'ENGRAVINGS ON THE HULL  -  the incised figures', (26, 44), FD, 0.95, WHT, 2, cv2.LINE_AA)
+    cv2.putText(img, '%d figures.  Each mark is a sunken channel; its two raised rims take the light differently, '
+                'and the figure is the channel between them.' % len(cl), (26, 74), FD, 0.45, (188, 204, 222), 1, cv2.LINE_AA)
     lx = 26
-    for t, col in (('shadow side', C_SHADOW), ('lit side', C_LIGHT)):
+    for t, col in (('incised figure', C_FIG_HI), ('shadowed rim', C_SHADOW), ('lit rim', C_LIGHT)):
         cv2.rectangle(img, (lx, 88), (lx+22, 104), col, -1)
         cv2.putText(img, t, (lx+30, 101), FD, 0.44, (206, 216, 230), 1, cv2.LINE_AA)
         lx += int(cv2.getTextSize(t, FD, 0.44, 1)[0][0])+70
-    for t, k in (('strong', 'strong'), ('moderate', 'moderate'), ('weak', 'weak')):
-        cv2.circle(img, (lx+8, 96), 7, TIER[k], -1, cv2.LINE_AA)
-        cv2.putText(img, t, (lx+22, 101), FD, 0.44, (206, 216, 230), 1, cv2.LINE_AA)
-        lx += int(cv2.getTextSize(t, FD, 0.44, 1)[0][0])+52
     cv2.imwrite(os.path.join(OUT, '01_engravings_highlighted.png'), img)
 
     # ---------- 02 plate ----------
-    TW = TH = 250; PAD = 22; tiles = []
+    TW = TH = 250; PAD = 24; tiles = []
     for c in cl:
         bw, bh = c['x1']-c['x0'], c['y1']-c['y0']
         R = int(max(bw, bh)/2)+PAD; cx, cy = (c['x0']+c['x1'])//2, (c['y0']+c['y1'])//2
@@ -230,11 +251,12 @@ def main():
             o[sy0-(cy-R):sy1-(cy-R), sx0-(cx-R):sx1-(cx-R)] = im[sy0:sy1, sx0:sx1]
             return o
         ph = cv2.resize(cut(enh), (TW, TH), interpolation=cv2.INTER_CUBIC)
-        sdm = cv2.resize(cut(SD*255), (TW, TH), interpolation=cv2.INTER_CUBIC) > 110
-        hlm = cv2.resize(cut(HL*255), (TW, TH), interpolation=cv2.INTER_CUBIC) > 110
-        ov = two_tone(sdm.astype(np.uint8), hlm.astype(np.uint8), ph, 0.78)
-        fac = two_tone(sdm.astype(np.uint8), hlm.astype(np.uint8))
-        t = np.hstack([ph, ov, fac])
+        sd = cv2.resize(cut(SD*255), (TW, TH), interpolation=cv2.INTER_CUBIC) > 110
+        hl = cv2.resize(cut(HL*255), (TW, TH), interpolation=cv2.INTER_CUBIC) > 110
+        fg = cv2.resize(cut(fig*255), (TW, TH), interpolation=cv2.INTER_CUBIC) > 110
+        rim_pane = rims_on(ph, sd.astype(np.uint8), hl.astype(np.uint8), 0.78)
+        fac = np.full((TH, TW, 3), 252, np.uint8); fac[fg] = C_FIG
+        t = np.hstack([ph, rim_pane, fac])
         for xx in (TW, 2*TW): cv2.line(t, (xx, 0), (xx, TH), (150, 150, 156), 1)
         cv2.rectangle(t, (0, 0), (t.shape[1]-1, TH-1), (150, 150, 156), 1)
         hd = np.full((34, t.shape[1], 3), 248, np.uint8)
@@ -242,20 +264,19 @@ def main():
         cv2.circle(hd, (19, 17), 13, TIER[tier(c['rel'])], 2, cv2.LINE_AA)
         fs, tw, tht = fit_text(str(c['id']), 20, 0.5, 1)
         cv2.putText(hd, str(c['id']), (19-tw//2, 17+tht//2), FD, fs, WHT, 1, cv2.LINE_AA)
-        cv2.putText(hd, '%s   reads as %s   %.0f x %.0f px on the photo' % (
-            tier(c['rel']), c['relief'], bw*SCALE, bh*SCALE),
+        cv2.putText(hd, '%s   %s   %.0f x %.0f px on the photo' % (
+            tier(c['rel']), plural(c['n_strokes'], 'part'), bw*SCALE, bh*SCALE),
             (40, 23), FD, 0.42, (60, 60, 66), 1, cv2.LINE_AA)
         tiles.append(np.vstack([hd, t]))
     cols = 2; TWt, THt = tiles[0].shape[1], tiles[0].shape[0]
     rows = math.ceil(len(tiles)/cols)
     plate = np.full((rows*(THt+14)+118, cols*(TWt+14)+14, 3), 244, np.uint8)
     cv2.rectangle(plate, (0, 0), (plate.shape[1], 104), (30, 30, 34), -1)
-    cv2.putText(plate, 'ENGRAVING PLATE  -  %d mark groups' % len(cl), (24, 42), FD, 0.85, WHT, 2, cv2.LINE_AA)
-    cv2.putText(plate, 'enhanced photo  |  relief traced on the photo  |  two-tone facsimile.     Sizes are as the mark '
-                'appears on the source photograph.     raised/sunken assumes light from the left - if it is '
-                'from the right, every reading flips.', (24, 72), FD, 0.45, (180, 200, 220), 1, cv2.LINE_AA)
+    cv2.putText(plate, 'ENGRAVING PLATE  -  %d incised figures' % len(cl), (24, 42), FD, 0.85, WHT, 2, cv2.LINE_AA)
+    cv2.putText(plate, 'enhanced photo  |  the two rims of the channel  |  the incised figure between them.     '
+                'Sizes are as the mark appears on the source photograph.', (24, 72), FD, 0.45, (180, 200, 220), 1, cv2.LINE_AA)
     lx = 24
-    for t, col in (('shadow side', C_SHADOW), ('lit side', C_LIGHT)):
+    for t, col in (('shadowed rim', C_SHADOW), ('lit rim', C_LIGHT)):
         cv2.rectangle(plate, (lx, 84), (lx+20, 98), col, -1)
         cv2.putText(plate, t, (lx+28, 96), FD, 0.42, (180, 200, 220), 1, cv2.LINE_AA)
         lx += int(cv2.getTextSize(t, FD, 0.42, 1)[0][0])+64
@@ -265,7 +286,7 @@ def main():
     cv2.imwrite(os.path.join(OUT, '02_engraving_plate.png'), plate)
 
     # ---------- 03 facsimile ----------
-    fac = two_tone(SD, HL)
+    fac = np.full((H, W, 3), 252, np.uint8)
     Ai = np.linalg.inv(np.vstack([A, [0, 0, 1]]))[:2]
     ctr = cv2.transform(np.array([[[ecx, ecy]]], np.float32), Ai).reshape(2)
     cv2.ellipse(fac, ((float(ctr[0]), float(ctr[1])), (eMA/SCALE, ema/SCALE), eang+2.318),
@@ -274,6 +295,7 @@ def main():
     cv2.rectangle(fac, (x0, y0), (x1, y1), (206, 206, 212), 2)
     fs, tw, _ = fit_text('surface not visible', x1-x0-80, 0.7, 2)
     cv2.putText(fac, 'surface not visible', (x0+((x1-x0)-tw)//2, (y0+y1)//2), FD, fs, (170, 170, 176), 2, cv2.LINE_AA)
+    fac[fig > 0] = C_FIG
     for c in cl:
         cx, cy = int(c['cx']), int(c['cy'])
         r = int(max(c['x1']-c['x0'], c['y1']-c['y0'])/2)+26
@@ -283,8 +305,8 @@ def main():
         fs, tw, tht = fit_text(str(c['id']), 22, 0.5, 1)
         cv2.putText(fac, str(c['id']), (bx-tw//2, by+tht//2), FD, fs, (40, 40, 46), 1, cv2.LINE_AA)
     cv2.rectangle(fac, (0, 0), (W, 92), (30, 30, 34), -1)
-    cv2.putText(fac, 'FACSIMILE  -  relief in hull position', (26, 42), FD, 0.9, WHT, 2, cv2.LINE_AA)
-    cv2.putText(fac, 'dark = shadow side, pale = lit side; same scale and position as panel 1',
+    cv2.putText(fac, 'FACSIMILE  -  incised figures in hull position', (26, 42), FD, 0.9, WHT, 2, cv2.LINE_AA)
+    cv2.putText(fac, 'the channel between the rims, at the scale and position of panel 1',
                 (26, 72), FD, 0.45, (180, 200, 220), 1, cv2.LINE_AA)
     cv2.imwrite(os.path.join(OUT, '03_engravings_facsimile.png'), fac)
 
@@ -293,11 +315,11 @@ def main():
     for c in cl:
         if tier(c['rel']) == 'weak': continue
         sl = (slice(max(0, c['y0']-5), c['y1']+6), slice(max(0, c['x0']-5), c['x1']+6))
-        sd, hl = SD[sl]*255, HL[sl]*255
-        sc_ = SH/sd.shape[0]; wpx = max(14, int(sd.shape[1]*sc_))
-        sd = cv2.resize(sd, (wpx, SH), interpolation=cv2.INTER_CUBIC) > 110
-        hl = cv2.resize(hl, (wpx, SH), interpolation=cv2.INTER_CUBIC) > 110
-        items.append((c, two_tone(sd.astype(np.uint8), hl.astype(np.uint8))))
+        sub = (fig[sl]*255).astype(np.uint8)
+        sc_ = SH/sub.shape[0]; wpx = max(14, int(sub.shape[1]*sc_))
+        sub = cv2.resize(sub, (wpx, SH), interpolation=cv2.INTER_CUBIC) > 110
+        im = np.full((SH, wpx, 3), 252, np.uint8); im[sub] = C_FIG
+        items.append((c, im))
     GAP, MAXW = 28, 1900
     rws = [[]]; cur = 0
     for c, im in items:
@@ -307,8 +329,8 @@ def main():
     strip = np.full((len(rws)*(SH+54)+96, MAXW+40, 3), 252, np.uint8)
     cv2.rectangle(strip, (0, 0), (strip.shape[1], 84), (30, 30, 34), -1)
     cv2.putText(strip, 'SIGN FORMS  -  normalised to equal height for comparison', (24, 38), FD, 0.82, WHT, 2, cv2.LINE_AA)
-    cv2.putText(strip, 'strong + moderate groups; dark = shadow side, pale = lit side.  '
-                'Proportions preserved, absolute size is not.', (24, 66), FD, 0.44, (180, 200, 220), 1, cv2.LINE_AA)
+    cv2.putText(strip, 'strong + moderate figures.  Proportions preserved, absolute size is not.',
+                (24, 66), FD, 0.44, (180, 200, 220), 1, cv2.LINE_AA)
     for r, row in enumerate(rws):
         xx = 20; yy = 96+r*(SH+54)
         for c, im in row:
