@@ -78,3 +78,32 @@ terminal shapes and curvature do not. `engravings.csv` gives `photo_w`/`photo_h`
 The hand sketches were used to test *detection* — did we find the mark, and roughly its extent
 — never to tune the shape. Fitting them directly produces blobs, which an earlier pass here
 did before that was caught.
+
+## Would shape-from-shading do better? (`06_shape_from_shading.png`)
+
+The rigorous version of "raise the pixel height and emboss from 360°" is
+**shape-from-shading**: for a Lambertian surface at low slope the shading is the derivative
+of height along the light direction, `dI ≈ ∂h/∂u`, so height comes back by integrating —
+in Fourier, `ĥ = dÎ / (i k·u)`, damped by a smoothness prior where `k·u → 0`
+(`scripts/sfs.py`).
+
+It was implemented and it inverts cleanly: the recovered height explains the observed shading
+with **r = 0.90**. It still does not help read the marks, for two reasons.
+
+**One light direction is not enough information.** It constrains only the slope *along* the
+light. Across the light the recovered field carries **91 % as much variation**, all of it
+supplied by the smoothness prior rather than measured. Relighting that height field from a
+new angle — the 360° emboss — therefore renders the prior as confidently as the data. The
+panel shows the two relights side by side: along the light it reproduces the photograph, and
+across it, it shows something that was invented.
+
+**And integration is the weaker measurement here.** Separating marked surface from plain
+hull, the direct ridge measurement scores **3.59×** against the height field's **1.60×**.
+Integrating spreads each mark's signal out and folds in the hull's own texture, so the height
+map is a *less* sensitive discriminator than the thing it was meant to improve on.
+
+What would make this well-posed is more light directions: **RTI / photometric stereo**,
+several exposures of the same object with the lamp moved between them, which is the standard
+method for reading worn inscriptions. Failing that, the original photograph at full
+resolution — the best copy available here is a photograph of a screen, compressed twice, with
+each mark about 25 px across.
